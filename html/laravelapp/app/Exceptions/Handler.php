@@ -44,4 +44,12 @@ class Handler extends ExceptionHandler
             ], $status);
         });
     }
+
+    /**
+     * 認証エラー
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json(['message' => $exception->getMessage()], 401);
+    }
 }

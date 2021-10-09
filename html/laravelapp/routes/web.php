@@ -20,3 +20,7 @@ Route::middleware('auth:sanctum')->get('/threads', 'ThreadController@getAll');
 Route::middleware('auth:sanctum')->post('/threads', 'ThreadController@create');
 Route::middleware('auth:sanctum')->get('/replies', 'ReplyController@selectAll');
 Route::middleware('auth:sanctum')->post('/replies', 'ReplyController@create');
+
+Route::get('/test', function () {
+    return 'テストです';
+});
