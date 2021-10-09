@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (Throwable $e) {
-            $status = $e->getCode() ?: 400;
+            $status = $this->_getStatusCode($e);
             return response()->json([
                 'status' => $status,
                 'message' => $e->getMessage()
@@ -46,10 +46,15 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * 認証エラー
+     * ステータスコードを決める
      */
-    protected function unauthenticated($request, AuthenticationException $exception)
+    private function _getStatusCode(Throwable $e): int
     {
-        return response()->json(['message' => $exception->getMessage()], 401);
+        if ($e instanceof AuthenticationException) {
+            $status = 401;
+        } else {
+            $status = $e->getCode() ?: 400;
+        }
+        return $status;
     }
 }
