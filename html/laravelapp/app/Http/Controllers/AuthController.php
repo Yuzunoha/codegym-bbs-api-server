@@ -8,4 +8,9 @@ class AuthController extends Controller
     {
         return 'loginです';
     }
+
+    public function register()
+    {
+        return 'registerです';
+    }
 }
