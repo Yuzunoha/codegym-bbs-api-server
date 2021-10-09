@@ -2,6 +2,8 @@
 
 namespace App\Exceptions;
 
+use App\Services\UtilService;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -34,8 +36,12 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e) {
+            $status = $e->getCode() ?: 400;
+            return response()->json([
+                'status' => $status,
+                'message' => $e->getMessage()
+            ], $status);
         });
     }
 }
