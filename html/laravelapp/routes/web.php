@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('login');;
+Route::get('/login', 'AuthController@login')->name('login');
 Route::middleware('auth:sanctum')->get('/threads', 'ThreadController@getAll');
 Route::middleware('auth:sanctum')->post('/threads', 'ThreadController@create');
 Route::middleware('auth:sanctum')->get('/replies', 'ReplyController@selectAll');
