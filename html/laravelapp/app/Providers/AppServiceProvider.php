@@ -29,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\ReplyServiceInterface::class,
             \App\Services\ReplyService::class,
         );
+        $this->app->bind(
+            \App\Services\UtilServiceInterface::class,
+            \App\Services\UtilService::class,
+        );
     }
 
     /**

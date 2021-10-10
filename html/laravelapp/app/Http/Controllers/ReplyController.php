@@ -3,26 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
-use App\Models\Reply;
 use App\Services\ReplyServiceInterface;
-use App\Services\UtilService;
+use App\Services\UtilServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
 {
     protected $replyService;
+    protected $utilService;
 
     public function __construct(
-        ReplyServiceInterface $replyService
+        ReplyServiceInterface $replyService,
+        UtilServiceInterface  $utilService
+
     ) {
         $this->replyService = $replyService;
+        $this->utilService  = $utilService;
     }
 
     public function create(ReplyCreatePost $request)
     {
         $user_id    = Auth::id();
-        $ip_address = UtilService::getIp();
+        $ip_address = $this->utilService->getIp();
 
         return $this->replyService->create(
             $request->thread_id,

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UtilService
+class UtilService implements UtilServiceInterface
 {
-    public static function getIp()
+    public function getIp(): string
     {
         $keys = [
             'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED',
@@ -29,7 +29,7 @@ class UtilService
         return 'ip不明';
     }
 
-    public static function throwHttpResponseException($message, $status = 400)
+    public function throwHttpResponseException($message, int $status = 400): void
     {
         $res = response()->json([
             'status' => $status,

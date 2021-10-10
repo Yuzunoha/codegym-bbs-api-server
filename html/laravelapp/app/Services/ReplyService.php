@@ -10,25 +10,28 @@ class ReplyService implements ReplyServiceInterface
 {
     protected $replyRepository;
     protected $threadService;
+    protected $utilService;
 
     public function __construct(
         ReplyRepositoryInterface $replyRepository,
-        ThreadServiceInterface $threadService
+        ThreadServiceInterface   $threadService,
+        UtilServiceInterface     $utilService
     ) {
         $this->replyRepository = $replyRepository;
-        $this->threadService = $threadService;
+        $this->threadService   = $threadService;
+        $this->utilService     = $utilService;
     }
 
     public function create($thread_id, $user_id, $text, $ip_address)
     {
         /* thread_id が存在するか確認する */
         if (null === $this->threadService->selectById($thread_id)) {
-            UtilService::throwHttpResponseException("thread_id ${thread_id} は存在しません。");
+            $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
         }
 
         /* user_id が存在するか確認する */
         if (null === User::find($user_id)) {
-            UtilService::throwHttpResponseException("user_id ${user_id} は存在しません。");
+            $this->utilService->throwHttpResponseException("user_id ${user_id} は存在しません。");
         }
 
         /* number を取得する */
