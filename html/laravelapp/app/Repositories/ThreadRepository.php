@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Thread;
 use App\Repositories\ThreadRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ThreadRepository implements ThreadRepositoryInterface
 {
@@ -18,7 +19,7 @@ class ThreadRepository implements ThreadRepositoryInterface
         return $thread;
     }
 
-    public function selectAll()
+    public function selectAll(): Collection
     {
         return Thread::all();
     }
