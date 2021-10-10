@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Services\UtilServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
-class AuthController extends Controller
+class UserController extends Controller
 {
     protected $utilService;
 
