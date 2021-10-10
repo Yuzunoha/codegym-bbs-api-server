@@ -33,6 +33,14 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\UtilServiceInterface::class,
             \App\Services\UtilService::class,
         );
+        $this->app->bind(
+            \App\Services\UserServiceInterface::class,
+            \App\Services\UserService::class
+        );
+        $this->app->bind(
+            \App\Repositories\UserRepositoryInterface::class,
+            \App\Repositories\UserRepository::class
+        );
     }
 
     /**

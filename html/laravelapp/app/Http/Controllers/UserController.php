@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRegisterPost;
 use App\Models\User;
+use App\Services\UserServiceInterface;
 use App\Services\UtilServiceInterface;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     protected $utilService;
+    protected $userService;
 
-    public function __construct(UtilServiceInterface $utilService)
-    {
+    public function __construct(
+        UtilServiceInterface $utilService,
+        UserServiceInterface $userService
+    ) {
         $this->utilService = $utilService;
+        $this->userService = $userService;
     }
 
     public function login()
@@ -29,10 +34,10 @@ class UserController extends Controller
             $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
         }
 
-        return User::create([
-            'name'     => $request->name,
-            'email'    => $email,
-            'password' => Hash::make($request->password),
-        ]);
+        return $this->userService->create(
+            $request->name,
+            $email,
+            Hash::make($request->password)
+        );
     }
 }
