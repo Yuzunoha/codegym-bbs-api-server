@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthRegisterPost;
+use App\Http\Requests\UserRegisterPost;
 use App\Models\User;
 use App\Services\UtilServiceInterface;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +21,7 @@ class UserController extends Controller
         return 'loginです';
     }
 
-    public function register(AuthRegisterPost $request)
+    public function register(UserRegisterPost $request)
     {
         /* emailチェック */
         $email = $request->email;

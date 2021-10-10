@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class AuthRegisterPost extends FormRequestBase
+class UserRegisterPost extends FormRequestBase
 {
     public function rules()
     {
