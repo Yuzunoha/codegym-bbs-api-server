@@ -23,6 +23,5 @@ Route::middleware('auth:sanctum')->get('/replies',   'ReplyController@selectAll'
 Route::middleware('auth:sanctum')->post('/replies',  'ReplyController@create');
 
 Route::get('/test', function () {
-    // TODO: email_verified_at のキーをUsersから消したい！
     return 'テストです';
 });
