@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\NewAccessToken;
 
 class UserService implements UserServiceInterface
 {
@@ -30,5 +31,10 @@ class UserService implements UserServiceInterface
         $hash = Hash::make($password);
 
         return $this->userRepository->create($name, $email, $hash);
+    }
+
+    public function createToken(User $user, $tokenName = 'token-name'): NewAccessToken
+    {
+        return $this->userRepository->createToken($user, $tokenName);
     }
 }
