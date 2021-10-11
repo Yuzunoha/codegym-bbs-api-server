@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadCreatePost;
+use App\Models\Thread;
 use App\Services\ThreadService;
 use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,6 @@ class ThreadController extends Controller
 
     public function getAll()
     {
-        return $this->threadService->selectAll();
+        return Thread::all();
     }
 }

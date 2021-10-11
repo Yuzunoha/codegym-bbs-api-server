@@ -32,6 +32,6 @@ class ReplyController extends Controller
 
     public function selectAll()
     {
-        return $this->replyService->selectAll();
+        return Reply::all();
     }
 }

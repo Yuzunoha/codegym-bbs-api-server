@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 
 class ReplyService
 {
@@ -39,15 +38,5 @@ class ReplyService
             'text'       => $text,
             'ip_address' => $ip_address,
         ]);
-    }
-
-    public function selectAll()
-    {
-        return Reply::all();
-    }
-
-    public function selectByThreadId(int $thread_id): Collection
-    {
-        return Reply::where('thread_id', $thread_id)->get();
     }
 }

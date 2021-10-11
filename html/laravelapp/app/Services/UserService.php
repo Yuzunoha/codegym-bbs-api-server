@@ -65,9 +65,4 @@ class UserService
             'message' => 'ログアウトしました。既存のトークンは失効しました。',
         ];
     }
-
-    public function selectAll(): Collection
-    {
-        return User::all();
-    }
 }

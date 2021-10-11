@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
 use App\Services\UserService;
-use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -14,10 +13,8 @@ class UserController extends Controller
     protected $userService;
 
     public function __construct(
-        UtilService $utilService,
         UserService $userService
     ) {
-        $this->utilService = $utilService;
         $this->userService = $userService;
     }
 
@@ -45,6 +42,6 @@ class UserController extends Controller
 
     public function selectAll()
     {
-        return $this->userService->selectAll();
+        return User::all();
     }
 }
