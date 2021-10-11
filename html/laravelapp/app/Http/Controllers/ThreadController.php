@@ -29,7 +29,7 @@ class ThreadController extends Controller
         return $this->threadService->create($user_id, $title, $ip_address);
     }
 
-    public function getAll()
+    public function selectAll()
     {
         return Thread::all();
     }

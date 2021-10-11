@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
+use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 
