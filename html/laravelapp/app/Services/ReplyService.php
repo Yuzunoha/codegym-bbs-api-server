@@ -9,15 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ReplyService implements ReplyServiceInterface
 {
-    protected $threadService;
     protected $utilService;
 
-    public function __construct(
-        ThreadServiceInterface $threadService,
-        UtilServiceInterface   $utilService
-    ) {
-        $this->threadService = $threadService;
-        $this->utilService   = $utilService;
+    public function __construct(UtilServiceInterface $utilService)
+    {
+        $this->utilService = $utilService;
     }
 
     public function create(int $thread_id, int $user_id, string $text, string $ip_address): Reply
