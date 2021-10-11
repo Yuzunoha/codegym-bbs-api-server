@@ -10,6 +10,14 @@ class Reply extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'thread_id',
+        'number',
+        'user_id',
+        'text',
+        'ip_address',
+    ];
+
     /**
      * 配列/JSONシリアル化の日付を準備
      *
