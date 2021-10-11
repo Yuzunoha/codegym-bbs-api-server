@@ -38,4 +38,27 @@ class UserService implements UserServiceInterface
     {
         $this->userRepository->deleteAllTokens($user);
     }
+
+    public function login(string $email, string $passwordHash): array
+    {
+        $fnThrow = fn () => $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
+        $user = $this->userRepository->selectByEmail($request->email)->first();
+
+        if (!$user) {
+            /* emailが存在しなかった */
+            $fnThrow();
+        }
+        if ($passwordHash !== $user->password) {
+            /* emailとpasswordが一致しなかった */
+            $fnThrow();
+        }
+
+        /* 1ユーザにつき有効なトークンは1つだけにする */
+        $this->deleteAllTokens($user);
+
+        /* トークンを返却する */
+        return [
+            'token' => $this->createToken($user)->plainTextToken
+        ];
+    }
 }

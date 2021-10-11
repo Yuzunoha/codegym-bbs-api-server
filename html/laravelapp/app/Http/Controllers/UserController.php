@@ -24,22 +24,10 @@ class UserController extends Controller
 
     public function login(UserLoginPost $request)
     {
-        $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            /* emailが存在しなかった */
-            $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
-        }
-
-        /* emailが存在した */
-        if (!Hash::check($request->password, $user->password)) {
-            /* emailとpasswordが一致しなかった */
-            $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
-        }
-
-        /* emailとpasswordが一致した */
-        $user->tokens()->delete();
-        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
-        return ['token' => $token];
+        return $this->userService->login(
+            $request->email,
+            Hash::make($request->password)
+        );
     }
 
     public function register(UserRegisterPost $request)
