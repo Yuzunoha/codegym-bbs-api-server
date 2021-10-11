@@ -9,29 +9,26 @@ use Laravel\Sanctum\NewAccessToken;
 
 class UserService
 {
-    protected $userRepository;
     protected $utilService;
 
-    public function __construct(
-        UserRepository $userRepository,
-        UtilService    $utilService
-    ) {
-        $this->userRepository = $userRepository;
+    public function __construct(UtilService    $utilService)
+    {
         $this->utilService    = $utilService;
     }
 
-    public function create(string $name, string $email, string $passwordPlain): ?User
+    public function create(string $name, string $email, string $passwordPlain): User
     {
-        /* emailチェック */
-        if ($this->userRepository->selectByEmail($email)->count()) {
+        if (User::where('email', $email)->count()) {
+            /* emailが使われていた */
             $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
         }
 
-        return $this->userRepository->create(
-            $name,
-            $email,
-            Hash::make($passwordPlain)
-        );
+        /* 作成して返却する */
+        return User::create([
+            'name'     => $name,
+            'email'    => $email,
+            'password' => Hash::make($passwordPlain),
+        ]);
     }
 
     public function createToken(User $user, $tokenName = 'token-name'): NewAccessToken
