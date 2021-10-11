@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Reply;
 use App\Models\User;
 use App\Repositories\ReplyRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,7 +23,7 @@ class ReplyService implements ReplyServiceInterface
         $this->utilService     = $utilService;
     }
 
-    public function create($thread_id, $user_id, $text, $ip_address)
+    public function create(int $thread_id, int $user_id, string $text, string $ip_address): Reply
     {
         /* thread_id が存在するか確認する */
         if (null === $this->threadService->selectById($thread_id)) {

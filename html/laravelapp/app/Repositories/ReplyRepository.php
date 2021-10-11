@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ReplyRepository implements ReplyRepositoryInterface
 {
-    public function insert($thread_id, $number, $user_id, $text, $ip_address)
+    public function insert(int $thread_id, int $number, int $user_id, string $text, string $ip_address): Reply
     {
         $model = new Reply;
-        $model->thread_id = $thread_id;
-        $model->number = $number;
-        $model->user_id = $user_id;
-        $model->text = $text;
+        $model->thread_id  = $thread_id;
+        $model->number     = $number;
+        $model->user_id    = $user_id;
+        $model->text       = $text;
         $model->ip_address = $ip_address;
         $model->save();
         return $model;
