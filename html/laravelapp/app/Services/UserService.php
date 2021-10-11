@@ -42,7 +42,7 @@ class UserService implements UserServiceInterface
     public function login(string $email, string $passwordHash): array
     {
         $fnThrow = fn () => $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
-        $user = $this->userRepository->selectByEmail($request->email)->first();
+        $user = $this->userRepository->selectByEmail($email)->first();
 
         if (!$user) {
             /* emailが存在しなかった */
