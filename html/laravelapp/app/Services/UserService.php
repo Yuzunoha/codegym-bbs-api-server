@@ -61,9 +61,21 @@ class UserService implements UserServiceInterface
         /* 1ユーザにつき有効なトークンは1つだけにする */
         $this->deleteAllTokens($user);
 
+        /* トークンを発行する */
+        $token = $this->createToken($user);
+
         /* トークンを返却する */
         return [
-            'token' => $this->createToken($user)->plainTextToken
+            'token' => $token->plainTextToken,
+        ];
+    }
+
+    public function logout(User $user): array
+    {
+        /* 有効なトークンを全て削除する */
+        $this->deleteAllTokens($user);
+        return [
+            'message' => 'ログアウトしました。既存のトークンは失効しました。',
         ];
     }
 }

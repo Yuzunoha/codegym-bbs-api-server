@@ -40,6 +40,6 @@ class UserController extends Controller
 
     public function logout()
     {
-        return Auth::user();
+        return $this->userService->logout(Auth::user());
     }
 }

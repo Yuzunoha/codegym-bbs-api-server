@@ -11,4 +11,5 @@ interface UserServiceInterface
     public function createToken(User $user, string $tokenName): NewAccessToken;
     public function login(string $email, string $passwordPlain): array;
     public function deleteAllTokens(User $user): void;
+    public function logout(User $user): array;
 }
