@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login',    'UserController@login')->name('login');
 Route::post('/register', 'UserController@register');
+Route::middleware('auth:sanctum')->post('/logout',  'UserController@logout');
 Route::middleware('auth:sanctum')->get('/threads',  'ThreadController@getAll');
 Route::middleware('auth:sanctum')->post('/threads', 'ThreadController@create');
 Route::middleware('auth:sanctum')->get('/replies',  'ReplyController@selectAll');

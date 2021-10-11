@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
-use App\Models\User;
 use App\Services\UserServiceInterface;
 use App\Services\UtilServiceInterface;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -37,5 +36,10 @@ class UserController extends Controller
             $request->email,
             $request->password
         );
+    }
+
+    public function logout()
+    {
+        return Auth::user();
     }
 }
