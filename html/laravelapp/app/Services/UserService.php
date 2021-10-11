@@ -11,9 +11,9 @@ class UserService
 {
     protected $utilService;
 
-    public function __construct(UtilService    $utilService)
+    public function __construct(UtilService $utilService)
     {
-        $this->utilService    = $utilService;
+        $this->utilService = $utilService;
     }
 
     public function create(string $name, string $email, string $passwordPlain): User
@@ -31,20 +31,10 @@ class UserService
         ]);
     }
 
-    public function createToken(User $user, $tokenName = 'token-name'): NewAccessToken
-    {
-        return $this->userRepository->createToken($user, $tokenName);
-    }
-
-    public function deleteAllTokens(User $user): void
-    {
-        $this->userRepository->deleteAllTokens($user);
-    }
-
     public function login(string $email, string $passwordPlain): array
     {
         $fnThrow = fn () => $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
-        $user = $this->userRepository->selectByEmail($email)->first();
+        $user = User::where('email', $email)->first();
 
         if (!$user) {
             /* emailが存在しなかった */
@@ -56,10 +46,10 @@ class UserService
         }
 
         /* 1ユーザにつき有効なトークンは1つだけにする */
-        $this->deleteAllTokens($user);
+        $user->tokens()->delete();
 
         /* トークンを発行する */
-        $token = $this->createToken($user);
+        $token = $user->createToken('token-name');
 
         /* トークンを返却する */
         return [
@@ -70,7 +60,7 @@ class UserService
     public function logout(User $user): array
     {
         /* 有効なトークンを全て削除する */
-        $this->deleteAllTokens($user);
+        $user->tokens()->delete();
         return [
             'message' => 'ログアウトしました。既存のトークンは失効しました。',
         ];
@@ -78,6 +68,6 @@ class UserService
 
     public function selectAll(): Collection
     {
-        return $this->userRepository->selectAll();
+        return User::all();
     }
 }
