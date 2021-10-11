@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -13,5 +14,10 @@ class UserRepository implements UserRepositoryInterface
             'email'    => $email,
             'password' => $password,
         ]);
+    }
+
+    public function selectByEmail(string $email): Collection
+    {
+        return User::where('email', $email)->get();
     }
 }
