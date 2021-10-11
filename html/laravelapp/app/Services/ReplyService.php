@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Reply;
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,13 +22,13 @@ class ReplyService implements ReplyServiceInterface
 
     public function create(int $thread_id, int $user_id, string $text, string $ip_address): Reply
     {
-        /* thread_id が存在するか確認する */
-        if (null === $this->threadService->selectById($thread_id)) {
+        if (!Thread::find($thread_id)) {
+            /* thread_id が存在しない */
             $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
         }
 
-        /* user_id が存在するか確認する */
-        if (null === User::find($user_id)) {
+        if (!User::find($user_id)) {
+            /* user_id が存在しない */
             $this->utilService->throwHttpResponseException("user_id ${user_id} は存在しません。");
         }
 
