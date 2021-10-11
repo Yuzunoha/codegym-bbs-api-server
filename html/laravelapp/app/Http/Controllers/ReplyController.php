@@ -23,14 +23,11 @@ class ReplyController extends Controller
 
     public function create(ReplyCreatePost $request)
     {
-        $user_id    = Auth::id();
-        $ip_address = $this->utilService->getIp();
-
         return $this->replyService->create(
             $request->thread_id,
-            $user_id,
+            Auth::id(),
             $request->text,
-            $ip_address
+            $this->utilService->getIp()
         );
     }
 
