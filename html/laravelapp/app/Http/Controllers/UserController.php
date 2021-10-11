@@ -28,16 +28,10 @@ class UserController extends Controller
 
     public function register(UserRegisterPost $request)
     {
-        /* emailチェック */
-        $email = $request->email;
-        if (User::where('email', $email)->first()) {
-            $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
-        }
-
         return $this->userService->create(
             $request->name,
-            $email,
-            Hash::make($request->password)
+            $request->email,
+            $request->password
         );
     }
 }
