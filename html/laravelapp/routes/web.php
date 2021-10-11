@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Reply;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,5 +24,9 @@ Route::middleware('auth:sanctum')->get('/replies',   'ReplyController@selectAll'
 Route::middleware('auth:sanctum')->post('/replies',  'ReplyController@create');
 
 Route::get('/test', function () {
+    dd(
+        Reply::where('thread_id', 1)->count()
+
+    );
     return 'テストです';
 });

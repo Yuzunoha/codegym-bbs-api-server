@@ -4,23 +4,19 @@ namespace App\Services;
 
 use App\Models\Reply;
 use App\Models\User;
-use App\Repositories\ReplyRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class ReplyService implements ReplyServiceInterface
 {
-    protected $replyRepository;
     protected $threadService;
     protected $utilService;
 
     public function __construct(
-        ReplyRepositoryInterface $replyRepository,
-        ThreadServiceInterface   $threadService,
-        UtilServiceInterface     $utilService
+        ThreadServiceInterface $threadService,
+        UtilServiceInterface   $utilService
     ) {
-        $this->replyRepository = $replyRepository;
-        $this->threadService   = $threadService;
-        $this->utilService     = $utilService;
+        $this->threadService = $threadService;
+        $this->utilService   = $utilService;
     }
 
     public function create(int $thread_id, int $user_id, string $text, string $ip_address): Reply
@@ -36,18 +32,27 @@ class ReplyService implements ReplyServiceInterface
         }
 
         /* number を取得する */
-        $number = count($this->replyRepository->selectByThreadId($thread_id)) + 1;
+        $number = Reply::where('thread_id', $thread_id)->count() + 1;
 
-        return $this->replyRepository->insert($thread_id, $number, $user_id, $text, $ip_address);
+        /* 作成して返却する */
+        $model = new Reply([
+            'thread_id'  => $thread_id,
+            'number'     => $number,
+            'user_id'    => $user_id,
+            'text'       => $text,
+            'ip_address' => $ip_address,
+        ]);
+        $model->save();
+        return $model;
     }
 
     public function selectAll()
     {
-        return $this->replyRepository->selectAll();
+        return Reply::all();
     }
 
     public function selectByThreadId(int $thread_id): Collection
     {
-        return $this->replyRepository->selectByThreadId($thread_id);
+        return Reply::where('thread_id', $thread_id)->get();
     }
 }
