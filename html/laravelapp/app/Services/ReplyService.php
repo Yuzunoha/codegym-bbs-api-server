@@ -32,15 +32,13 @@ class ReplyService
         $number = Reply::where('thread_id', $thread_id)->count() + 1;
 
         /* 作成して返却する */
-        $model = new Reply([
+        return Reply::create([
             'thread_id'  => $thread_id,
             'number'     => $number,
             'user_id'    => $user_id,
             'text'       => $text,
             'ip_address' => $ip_address,
         ]);
-        $model->save();
-        return $model;
     }
 
     public function selectAll()
