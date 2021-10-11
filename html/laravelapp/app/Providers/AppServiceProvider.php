@@ -13,6 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // インタフェースやめた
+        /*
         $this->app->bind(
             \App\Repositories\ThreadRepositoryInterface::class,
             \App\Repositories\ThreadRepository::class
@@ -41,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\UserRepositoryInterface::class,
             \App\Repositories\UserRepository::class
         );
+        */
     }
 
     /**

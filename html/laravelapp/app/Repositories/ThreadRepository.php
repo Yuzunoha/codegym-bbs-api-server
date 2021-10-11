@@ -3,10 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Thread;
-use App\Repositories\ThreadRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class ThreadRepository implements ThreadRepositoryInterface
+class ThreadRepository
 {
     public function insert($user_id, $title, $ip_address)
     {

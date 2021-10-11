@@ -7,11 +7,11 @@ use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class ReplyService implements ReplyServiceInterface
+class ReplyService
 {
     protected $utilService;
 
-    public function __construct(UtilServiceInterface $utilService)
+    public function __construct(UtilService $utilService)
     {
         $this->utilService = $utilService;
     }

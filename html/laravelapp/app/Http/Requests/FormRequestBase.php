@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Services\UtilServiceInterface;
+use App\Services\UtilService;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -10,7 +10,7 @@ class FormRequestBase extends FormRequest
 {
     protected $utilService;
 
-    public function __construct(UtilServiceInterface $utilService)
+    public function __construct(UtilService $utilService)
     {
         $this->utilService = $utilService;
     }

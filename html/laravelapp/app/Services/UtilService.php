@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UtilService implements UtilServiceInterface
+class UtilService
 {
     public function getIp(): string
     {

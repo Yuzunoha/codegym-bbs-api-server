@@ -3,18 +3,10 @@
 namespace App\Services;
 
 use App\Models\Thread;
-use App\Repositories\ThreadRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class ThreadService implements ThreadServiceInterface
+class ThreadService
 {
-    protected $threadRepository;
-
-    public function __construct(ThreadRepositoryInterface $threadRepository)
-    {
-        $this->threadRepository = $threadRepository;
-    }
-
     public function create($user_id, $title, $ip_address)
     {
         $model = new Thread([

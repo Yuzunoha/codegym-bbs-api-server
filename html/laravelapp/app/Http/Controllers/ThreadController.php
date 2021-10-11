@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadCreatePost;
-use App\Services\ThreadServiceInterface;
-use App\Services\UtilServiceInterface;
+use App\Services\ThreadService;
+use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
@@ -13,8 +13,8 @@ class ThreadController extends Controller
     protected $utilService;
 
     public function __construct(
-        ThreadServiceInterface    $threadService,
-        UtilServiceInterface      $utilService
+        ThreadService    $threadService,
+        UtilService      $utilService
     ) {
         $this->threadService    = $threadService;
         $this->utilService      = $utilService;

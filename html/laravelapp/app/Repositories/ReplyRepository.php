@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Reply;
 use Illuminate\Database\Eloquent\Collection;
 
-class ReplyRepository implements ReplyRepositoryInterface
+class ReplyRepository
 {
     public function insert(int $thread_id, int $number, int $user_id, string $text, string $ip_address): Reply
     {

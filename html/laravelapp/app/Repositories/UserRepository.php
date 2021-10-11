@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Laravel\Sanctum\NewAccessToken;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository
 {
     public function create(string $name, string $email, string $passwordHash): ?User
     {

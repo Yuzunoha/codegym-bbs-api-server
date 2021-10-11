@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
-use App\Services\ReplyServiceInterface;
-use App\Services\UtilServiceInterface;
+use App\Services\ReplyService;
+use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
@@ -13,9 +13,8 @@ class ReplyController extends Controller
     protected $utilService;
 
     public function __construct(
-        ReplyServiceInterface $replyService,
-        UtilServiceInterface  $utilService
-
+        ReplyService $replyService,
+        UtilService  $utilService
     ) {
         $this->replyService = $replyService;
         $this->utilService  = $utilService;

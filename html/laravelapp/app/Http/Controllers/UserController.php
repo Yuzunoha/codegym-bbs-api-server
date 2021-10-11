@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
-use App\Services\UserServiceInterface;
-use App\Services\UtilServiceInterface;
+use App\Services\UserService;
+use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -14,8 +14,8 @@ class UserController extends Controller
     protected $userService;
 
     public function __construct(
-        UtilServiceInterface $utilService,
-        UserServiceInterface $userService
+        UtilService $utilService,
+        UserService $userService
     ) {
         $this->utilService = $utilService;
         $this->userService = $userService;

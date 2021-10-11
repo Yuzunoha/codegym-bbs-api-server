@@ -3,19 +3,18 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Repositories\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\NewAccessToken;
 
-class UserService implements UserServiceInterface
+class UserService
 {
     protected $userRepository;
     protected $utilService;
 
     public function __construct(
-        UserRepositoryInterface $userRepository,
-        UtilServiceInterface    $utilService
+        UserRepository $userRepository,
+        UtilService    $utilService
     ) {
         $this->userRepository = $userRepository;
         $this->utilService    = $utilService;
