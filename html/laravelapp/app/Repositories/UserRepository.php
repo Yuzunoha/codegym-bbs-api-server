@@ -26,4 +26,9 @@ class UserRepository implements UserRepositoryInterface
     {
         return $user->createToken($tokenName);
     }
+
+    public function deleteAllTokens(User $user): void
+    {
+        $user->tokens()->delete();
+    }
 }

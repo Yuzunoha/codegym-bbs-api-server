@@ -33,4 +33,9 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->createToken($user, $tokenName);
     }
+
+    public function deleteAllTokens(User $user): void
+    {
+        $this->userRepository->deleteAllTokens($user);
+    }
 }
