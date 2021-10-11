@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Laravel\Sanctum\NewAccessToken;
 
 interface UserServiceInterface
@@ -12,4 +13,5 @@ interface UserServiceInterface
     public function login(string $email, string $passwordPlain): array;
     public function deleteAllTokens(User $user): void;
     public function logout(User $user): array;
+    public function selectAll(): Collection;
 }

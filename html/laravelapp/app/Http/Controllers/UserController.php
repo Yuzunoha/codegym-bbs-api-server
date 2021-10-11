@@ -42,4 +42,9 @@ class UserController extends Controller
     {
         return $this->userService->logout(Auth::user());
     }
+
+    public function selectAll()
+    {
+        return $this->userService->selectAll();
+    }
 }

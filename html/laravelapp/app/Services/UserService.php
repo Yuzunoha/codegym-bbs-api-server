@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\NewAccessToken;
 
@@ -77,5 +78,10 @@ class UserService implements UserServiceInterface
         return [
             'message' => 'ログアウトしました。既存のトークンは失効しました。',
         ];
+    }
+
+    public function selectAll(): Collection
+    {
+        return $this->userRepository->selectAll();
     }
 }

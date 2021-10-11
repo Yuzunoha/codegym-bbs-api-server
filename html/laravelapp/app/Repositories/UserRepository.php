@@ -31,4 +31,9 @@ class UserRepository implements UserRepositoryInterface
     {
         $user->tokens()->delete();
     }
+
+    public function selectAll(): Collection
+    {
+        return User::all();
+    }
 }

@@ -12,4 +12,5 @@ interface UserRepositoryInterface
     public function selectByEmail(string $email): Collection;
     public function createToken(User $user, string $tokenName): NewAccessToken;
     public function deleteAllTokens(User $user): void;
+    public function selectAll(): Collection;
 }
