@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login',    'UserController@login')->name('login');
-Route::post('/register', 'UserController@register');
-Route::middleware('auth:sanctum')->get('/users',    'UserController@selectAll');
-Route::middleware('auth:sanctum')->post('/logout',  'UserController@logout');
+Route::post('/login',                                 'UserController@login')->name('login');
+Route::post('/register',                              'UserController@register');
+Route::middleware('auth:sanctum')->get('/users',      'UserController@selectAll');
+Route::middleware('auth:sanctum')->post('/logout',    'UserController@logout');
 Route::middleware('auth:sanctum')->get('/threads',  'ThreadController@getAll');
 Route::middleware('auth:sanctum')->post('/threads', 'ThreadController@create');
-Route::middleware('auth:sanctum')->get('/replies',  'ReplyController@selectAll');
-Route::middleware('auth:sanctum')->post('/replies', 'ReplyController@create');
+Route::middleware('auth:sanctum')->get('/replies',   'ReplyController@selectAll');
+Route::middleware('auth:sanctum')->post('/replies',  'ReplyController@create');
 
 Route::get('/test', function () {
     // TODO: email_verified_at のキーをUsersから消したい！
