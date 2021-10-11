@@ -8,12 +8,12 @@ use Laravel\Sanctum\NewAccessToken;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function create(string $name, string $email, string $password): ?User
+    public function create(string $name, string $email, string $passwordHash): ?User
     {
         return User::create([
             'name'     => $name,
             'email'    => $email,
-            'password' => $password,
+            'password' => $passwordHash,
         ]);
     }
 

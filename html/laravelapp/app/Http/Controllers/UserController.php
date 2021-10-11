@@ -31,7 +31,7 @@ class UserController extends Controller
         return $this->userService->create(
             $request->name,
             $request->email,
-            $request->password
+            Hash::make($request->password)
         );
     }
 }
