@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReplyCreatePost;
 use App\Services\ReplyServiceInterface;
 use App\Services\UtilServiceInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
