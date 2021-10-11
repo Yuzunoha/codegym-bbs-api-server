@@ -17,16 +17,22 @@ class ThreadService implements ThreadServiceInterface
 
     public function create($user_id, $title, $ip_address)
     {
-        return $this->threadRepository->insert($user_id, $title, $ip_address);
+        $model = new Thread([
+            'user_id'    => $user_id,
+            'title'      => $title,
+            'ip_address' => $ip_address,
+        ]);
+        $model->save();
+        return $model;
     }
 
     public function selectAll(): Collection
     {
-        return $this->threadRepository->selectAll();
+        return Thread::all();
     }
 
     public function selectById(int $id): ?Thread
     {
-        return $this->threadRepository->selectById($id);
+        return Thread::find($id);
     }
 }
