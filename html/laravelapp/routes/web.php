@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login',     'UserController@login')->name('login');
+Route::post('/login',    'UserController@login')->name('login');
 Route::post('/register', 'UserController@register');
 Route::middleware('auth:sanctum')->get('/threads',  'ThreadController@getAll');
 Route::middleware('auth:sanctum')->post('/threads', 'ThreadController@create');

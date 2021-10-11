@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
 use App\Models\User;
 use App\Services\UserServiceInterface;
@@ -21,9 +22,24 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function login()
+    public function login(UserLoginPost $request)
     {
-        return 'loginです';
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            /* emailが存在しなかった */
+            $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
+        }
+
+        /* emailが存在した */
+        if (!Hash::check($request->password, $user->password)) {
+            /* emailとpasswordが一致しなかった */
+            $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
+        }
+
+        /* emailとpasswordが一致した */
+        $user->tokens()->delete();
+        $token = $user->createToken("login:user{$user->id}")->plainTextToken;
+        return ['token' => $token];
     }
 
     public function register(UserRegisterPost $request)
