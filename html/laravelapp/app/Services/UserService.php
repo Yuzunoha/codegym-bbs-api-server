@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\NewAccessToken;
 
 class UserService implements UserServiceInterface
@@ -19,14 +20,18 @@ class UserService implements UserServiceInterface
         $this->utilService    = $utilService;
     }
 
-    public function create(string $name, string $email, string $passwordHash): ?User
+    public function create(string $name, string $email, string $passwordPlain): ?User
     {
         /* emailチェック */
         if ($this->userRepository->selectByEmail($email)->count()) {
             $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
         }
 
-        return $this->userRepository->create($name, $email, $passwordHash);
+        return $this->userRepository->create(
+            $name,
+            $email,
+            Hash::make($passwordPlain)
+        );
     }
 
     public function createToken(User $user, $tokenName = 'token-name'): NewAccessToken
@@ -39,7 +44,7 @@ class UserService implements UserServiceInterface
         $this->userRepository->deleteAllTokens($user);
     }
 
-    public function login(string $email, string $passwordHash): array
+    public function login(string $email, string $passwordPlain): array
     {
         $fnThrow = fn () => $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
         $user = $this->userRepository->selectByEmail($email)->first();
@@ -48,7 +53,7 @@ class UserService implements UserServiceInterface
             /* emailが存在しなかった */
             $fnThrow();
         }
-        if ($passwordHash !== $user->password) {
+        if (!Hash::check($passwordPlain, $user->password)) {
             /* emailとpasswordが一致しなかった */
             $fnThrow();
         }

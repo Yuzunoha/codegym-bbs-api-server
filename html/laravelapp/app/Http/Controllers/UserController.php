@@ -26,7 +26,7 @@ class UserController extends Controller
     {
         return $this->userService->login(
             $request->email,
-            Hash::make($request->password)
+            $request->password
         );
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
         return $this->userService->create(
             $request->name,
             $request->email,
-            Hash::make($request->password)
+            $request->password
         );
     }
 }
