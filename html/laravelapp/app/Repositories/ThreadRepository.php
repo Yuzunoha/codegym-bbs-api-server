@@ -10,7 +10,7 @@ class ThreadRepository implements ThreadRepositoryInterface
 {
     public function insert($user_id, $title, $ip_address)
     {
-        $thread = Thread::create([
+        $thread = new Thread([
             'user_id'    => $user_id,
             'title'      => $title,
             'ip_address' => $ip_address,
