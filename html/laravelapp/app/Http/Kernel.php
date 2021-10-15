@@ -35,7 +35,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            // ‚²‚ß‚ñCSRF‘Îô–³Œø‰»‚µ‚Ü‚·B‘ã‚í‚è‚Étoken”FØ‚·‚é‚©‚çB
+            // ï¿½ï¿½ï¿½ß‚ï¿½CSRFï¿½Îï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½Bï¿½ï¿½ï¿½ï¿½ï¿½tokenï¿½Fï¿½Ø‚ï¿½ï¿½é‚©ï¿½ï¿½B
             // \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'RequestFilter' => \App\Http\Middleware\RequestFilter::class,
     ];
 }

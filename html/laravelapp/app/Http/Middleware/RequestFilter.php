@@ -16,6 +16,8 @@ class RequestFilter
      */
     public function handle(Request $request, Closure $next)
     {
+        $request->merge(['c' => 'd']);
+
         return $next($request);
     }
 }
