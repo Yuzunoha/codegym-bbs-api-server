@@ -20,10 +20,18 @@ Route::post('/register', 'UserController@register'); // ユーザ登録
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/users', 'UserController@selectAll'); // ユーザ一覧取得
     Route::post('/logout', 'UserController@logout'); // ログアウト
+    // TODO: ユーザ削除ができる事
+    // TODO: ユーザ編集ができる事(ユーザ名だけでも)
+
     Route::get('/threads', 'ThreadController@selectAll'); // スレッド一覧取得
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
-    Route::get('/replies', 'ReplyController@selectAll'); // リプライ一覧取得
+    // TODO: スレッド検索。スレッド名ね。リプライは関係なし。リプライ数も関係無し
+
+    Route::get('/replies', 'ReplyController@selectAll'); // TODO: リプライ取得。必ずスレッド指定
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
+    // TODO: リプライ編集ができる事。内容。
+    // TODO: リプライ削除が出来る事。
+    // TODO: リプライ検索(スレッド指定ありなし両方)
 });
 
 Route::group(['middleware' => ['RequestFilter']], function () {
