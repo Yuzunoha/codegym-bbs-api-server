@@ -9,8 +9,10 @@ class YuzuPaginator extends LengthAwarePaginator
     public function toArray(): array
     {
         return [
-            'Yuzu' => 'Yuzu',
             'data' => $this->items->toArray(),
+            'current_page' => $this->currentPage(),
+            'last_page' => $this->lastPage(),
+            'per_page' => $this->perPage(),
         ];
     }
 }
