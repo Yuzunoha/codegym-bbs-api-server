@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', 'UserController@login')->name('login');
-Route::post('/register', 'UserController@register');
+Route::post('/login', 'UserController@login')->name('login'); // ログイン(トークン発行)
+Route::post('/register', 'UserController@register'); // ユーザ登録
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
-    Route::get('/users', 'UserController@selectAll');
-    Route::post('/logout', 'UserController@logout');
-    Route::get('/threads', 'ThreadController@selectAll');
-    Route::post('/threads', 'ThreadController@create');
-    Route::get('/replies', 'ReplyController@selectAll');
-    Route::post('/replies', 'ReplyController@create');
+    Route::get('/users', 'UserController@selectAll'); // ユーザ一覧取得
+    Route::post('/logout', 'UserController@logout'); // ログアウト
+    Route::get('/threads', 'ThreadController@selectAll'); // スレッド一覧取得
+    Route::post('/threads', 'ThreadController@create'); // スレッド作成
+    Route::get('/replies', 'ReplyController@selectAll'); // リプライ一覧取得
+    Route::post('/replies', 'ReplyController@create'); // リプライ作成
 });
 
 Route::group(['middleware' => ['RequestFilter']], function () {
