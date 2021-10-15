@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
     // TODO: スレッド検索。スレッド名ね。リプライは関係なし。リプライ数も関係無し
 
-    Route::get('/replies', 'ReplyController@selectAll'); // TODO: リプライ取得。必ずスレッド指定
+    Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
     // TODO: リプライ編集ができる事。内容。
     // TODO: リプライ削除が出来る事。

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
+use App\Http\Requests\ReplySelectGet;
 use App\Models\Reply;
+use App\Models\Thread;
 use App\Services\UtilService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,8 +46,15 @@ class ReplyController extends Controller
         ]);
     }
 
-    public function selectAll(Request $request)
+    public function selectByThreadId(ReplySelectGet $request)
     {
-        return Reply::paginate($request->per_page);
+        $thread_id = $request->thread_id;
+        if (!Thread::find($thread_id)) {
+            /* thread_id が存在しない */
+            $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
+        }
+        return Reply::where('thread_id', $thread_id)
+            ->orderBy('number')
+            ->paginate($request->per_page);
     }
 }
