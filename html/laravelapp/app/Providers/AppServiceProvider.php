@@ -44,6 +44,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\UserRepository::class
         );
         */
+        $this->app->bind(
+            \Illuminate\Pagination\LengthAwarePaginator::class,
+            \App\Http\Paginators\YuzuPaginator::class
+        );
     }
 
     /**

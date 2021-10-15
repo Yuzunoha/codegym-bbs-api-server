@@ -71,6 +71,6 @@ class UserController extends Controller
 
     public function selectAll()
     {
-        return User::all();
+        return User::paginate();
     }
 }
