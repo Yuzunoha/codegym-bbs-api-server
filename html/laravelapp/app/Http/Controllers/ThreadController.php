@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ThreadCreatePost;
 use App\Models\Thread;
 use App\Services\UtilService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
@@ -25,8 +26,8 @@ class ThreadController extends Controller
         ]);
     }
 
-    public function selectAll()
+    public function selectAll(Request $request)
     {
-        return Thread::all();
+        return Thread::paginate($request->per_page);
     }
 }

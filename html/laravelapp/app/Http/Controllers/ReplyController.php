@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
+use App\Models\Reply;
 use App\Services\UtilService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
@@ -42,8 +44,8 @@ class ReplyController extends Controller
         ]);
     }
 
-    public function selectAll()
+    public function selectAll(Request $request)
     {
-        return Reply::all();
+        return Reply::paginate($request->per_page);
     }
 }
