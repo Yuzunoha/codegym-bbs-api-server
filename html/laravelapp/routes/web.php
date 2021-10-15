@@ -15,16 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login',                                 'UserController@login')->name('login');
-Route::post('/register',                              'UserController@register');
-Route::middleware('auth:sanctum')->get('/users',      'UserController@selectAll');
-Route::middleware('auth:sanctum')->post('/logout',    'UserController@logout');
-Route::middleware('auth:sanctum')->get('/threads',  'ThreadController@selectAll');
-Route::middleware('auth:sanctum')->post('/threads', 'ThreadController@create');
-Route::middleware('auth:sanctum')->get('/replies',   'ReplyController@selectAll');
-Route::middleware('auth:sanctum')->post('/replies',  'ReplyController@create');
+Route::post('/login', 'UserController@login')->name('login');
+Route::post('/register', 'UserController@register');
 
-Route::get('/test', function (Request $req) {
-    dd($req->all());
-    return 'テストです';
-})->middleware('RequestFilter');
+Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
+    Route::get('/users', 'UserController@selectAll');
+    Route::post('/logout', 'UserController@logout');
+    Route::get('/threads', 'ThreadController@selectAll');
+    Route::post('/threads', 'ThreadController@create');
+    Route::get('/replies', 'ReplyController@selectAll');
+    Route::post('/replies', 'ReplyController@create');
+});
+
+Route::group(['middleware' => ['RequestFilter']], function () {
+    Route::get('/test', function (Request $req) {
+        return $req;
+    });
+});
