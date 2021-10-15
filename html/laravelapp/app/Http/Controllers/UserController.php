@@ -6,6 +6,7 @@ use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
 use App\Models\User;
 use App\Services\UtilService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -69,8 +70,8 @@ class UserController extends Controller
         ];
     }
 
-    public function selectAll()
+    public function selectAll(Request $request)
     {
-        return User::paginate();
+        return User::paginate($request->per_page);
     }
 }
