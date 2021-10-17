@@ -18,7 +18,8 @@ Route::post('/login', 'UserController@login')->name('login'); // ログイン(�
 Route::post('/register', 'UserController@register'); // ユーザ登録
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
-    Route::get('/users', 'UserController@selectAll'); // ユーザ一覧取得
+    Route::get('/users', 'UserController@selectLoginUser'); // ログインユーザ取得
+    Route::get('/users/list', 'UserController@selectAll'); // ユーザ一覧取得
     Route::post('/logout', 'UserController@logout'); // ログアウト
     Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
     Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事

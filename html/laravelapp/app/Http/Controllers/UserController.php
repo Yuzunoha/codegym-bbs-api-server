@@ -100,4 +100,9 @@ class UserController extends Controller
         ]);
         return Auth::user();
     }
+
+    public function selectLoginUser()
+    {
+        return Auth::user();
+    }
 }
