@@ -58,4 +58,24 @@ class ReplyController extends Controller
             ->orderBy('number')
             ->paginate($request->per_page);
     }
+
+    public function deleteOwnReply(ReplyDelete $request)
+    {
+        $reply_id = $request->id;
+        $reply = Reply::find($reply_id);
+
+        if (!$reply) {
+            /* 投稿が存在しない */
+            $this->utilService->throwHttpResponseException("reply_id ${reply_id} は存在しません。");
+        }
+        if (Auth::id() !== intval($reply->user_id)) {
+            /* 自分の投稿でない */
+            $this->utilService->throwHttpResponseException("他のユーザの投稿は削除できません。");
+        }
+
+        Reply::find($reply_id)->delete();
+        return [
+            'message' => "reply_id ${reply_id} のリプライを削除しました。",
+        ];
+    }
 }
