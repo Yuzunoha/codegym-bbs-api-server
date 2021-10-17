@@ -39,13 +39,14 @@ class ReplyController extends Controller
         $number = Reply::where('thread_id', $thread_id)->count() + 1;
 
         /* 作成して返却する */
-        return Reply::create([
+        $reply = Reply::create([
             'thread_id'  => $thread_id,
             'number'     => $number,
             'user_id'    => $user_id,
             'text'       => $request->text,
             'ip_address' => $this->utilService->getIp(),
         ]);
+        return Reply::with('user')->find($reply->id);
     }
 
     public function selectByThreadId(ReplySelectGet $request)
@@ -94,10 +95,9 @@ class ReplyController extends Controller
         $reply_id = $request->id;
         $this->checkExistAndOwnReply($reply_id, Auth::id());
 
-        $reply = Reply::find($reply_id);
-        $reply->update([
+        Reply::find($reply_id)->update([
             'text' => $request->text,
         ]);
-        return $reply;
+        return Reply::with('user')->find($reply_id);
     }
 }
