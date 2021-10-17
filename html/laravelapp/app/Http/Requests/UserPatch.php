@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class UserUpdatePut extends FormRequestBase
+class UserPatch extends FormRequestBase
 {
     public function rules()
     {

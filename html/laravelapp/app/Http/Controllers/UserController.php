@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginPost;
+use App\Http\Requests\UserPatch;
 use App\Http\Requests\UserRegisterPost;
 use App\Http\Requests\UserUpdatePut;
 use App\Models\Reply;
@@ -93,7 +94,7 @@ class UserController extends Controller
         ];
     }
 
-    public function updateUser(UserUpdatePut $request)
+    public function updateUser(UserPatch $request)
     {
         Auth::user()->update([
             'name' => $request->name,
