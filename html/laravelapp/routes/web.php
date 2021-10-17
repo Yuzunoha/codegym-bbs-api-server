@@ -20,6 +20,7 @@ Route::post('/register', 'UserController@register'); // ユーザ登録
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/users', 'UserController@selectAll'); // ユーザ一覧取得
     Route::post('/logout', 'UserController@logout'); // ログアウト
+    Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
     // TODO: ユーザ削除ができる事
     // TODO: ユーザ編集ができる事(ユーザ名だけでも)
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
+use App\Models\Reply;
 use App\Models\User;
 use App\Services\UtilService;
 use Illuminate\Http\Request;
@@ -73,5 +74,21 @@ class UserController extends Controller
     public function selectAll(Request $request)
     {
         return User::paginate($request->per_page);
+    }
+
+    public function deleteLoginUser()
+    {
+        // 自分のリプライを全て削除する(スレッドは残る)
+        Reply::where('user_id', Auth::id())->delete();
+
+        // 自分のトークンを全て削除する
+        Auth::user()->tokens()->delete();
+
+        // 自分のユーザ情報を削除する
+        Auth::user()->delete();
+
+        return [
+            'message' => 'ユーザ情報を削除しました。',
+        ];
     }
 }
