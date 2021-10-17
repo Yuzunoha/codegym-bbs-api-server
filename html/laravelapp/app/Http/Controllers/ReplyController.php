@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
+use App\Http\Requests\ReplyDelete;
 use App\Http\Requests\ReplySelectGet;
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\User;
 use App\Services\UtilService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
