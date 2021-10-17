@@ -56,7 +56,7 @@ class ReplyController extends Controller
             /* thread_id が存在しない */
             $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
         }
-        return Reply::with(['user'])
+        return Reply::with('user')
             ->where('thread_id', $thread_id)
             ->orderBy('number')
             ->paginate($request->per_page);
