@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
     Route::delete('/replies', 'ReplyController@deleteOwnReply'); // リプライ削除
-    // TODO: リプライ編集ができる事。内容。
+    Route::patch('/replies', 'ReplyController@updateOwnReply'); // リプライ編集
     // TODO: リプライ検索(スレッド指定ありなし両方)
 });
 

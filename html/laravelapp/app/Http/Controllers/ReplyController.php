@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
 use App\Http\Requests\ReplyDelete;
+use App\Http\Requests\ReplyPatch;
 use App\Http\Requests\ReplySelectGet;
 use App\Models\Reply;
 use App\Models\Thread;
@@ -80,9 +81,22 @@ class ReplyController extends Controller
     {
         $reply_id = $request->id;
         $this->checkExistAndOwnReply($reply_id, Auth::id());
+
         Reply::find($reply_id)->delete();
         return [
             'message' => "reply_id ${reply_id} のリプライを削除しました。",
         ];
+    }
+
+    public function updateOwnReply(ReplyPatch $request)
+    {
+        $reply_id = $request->id;
+        $this->checkExistAndOwnReply($reply_id, Auth::id());
+
+        $reply = Reply::find($reply_id);
+        $reply->update([
+            'text' => $request->text,
+        ]);
+        return $reply;
     }
 }
