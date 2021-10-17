@@ -28,4 +28,10 @@ class Reply extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    // PostContentsへの関連を定義します.
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
