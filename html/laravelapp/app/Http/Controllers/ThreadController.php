@@ -26,8 +26,13 @@ class ThreadController extends Controller
         ]);
     }
 
-    public function selectAll(Request $request)
+    public function select(Request $request)
     {
-        return Thread::paginate($request->per_page);
+        if ($request->search) {
+            $builder = Thread::where('title', 'LIKE', '%' . $request->search . '%');
+        } else {
+            $builder = Thread::query();
+        }
+        return $builder->paginate($request->per_page);
     }
 }

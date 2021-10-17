@@ -24,9 +24,8 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
     Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事
 
-    Route::get('/threads', 'ThreadController@selectAll'); // スレッド一覧取得
+    Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
-    // TODO: スレッド検索。スレッド名ね。リプライは関係なし。リプライ数も関係無し
 
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
