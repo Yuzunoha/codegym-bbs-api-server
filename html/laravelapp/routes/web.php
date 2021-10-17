@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
 
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
+    // TODO: スレッド取得時のユーザ情報もイーガーローディングにしようね。ユーザ情報と紐づけ
 
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
