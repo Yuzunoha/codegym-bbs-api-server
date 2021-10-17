@@ -21,8 +21,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/users', 'UserController@selectAll'); // ユーザ一覧取得
     Route::post('/logout', 'UserController@logout'); // ログアウト
     Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
-    // TODO: ユーザ削除ができる事
-    // TODO: ユーザ編集ができる事(ユーザ名だけでも)
+    Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事
 
     Route::get('/threads', 'ThreadController@selectAll'); // スレッド一覧取得
     Route::post('/threads', 'ThreadController@create'); // スレッド作成

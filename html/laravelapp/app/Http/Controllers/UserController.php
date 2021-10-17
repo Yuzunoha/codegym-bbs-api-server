@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserRegisterPost;
+use App\Http\Requests\UserUpdatePut;
 use App\Models\Reply;
 use App\Models\User;
 use App\Services\UtilService;
@@ -90,5 +91,13 @@ class UserController extends Controller
         return [
             'message' => 'ユーザ情報を削除しました。',
         ];
+    }
+
+    public function updateUser(UserUpdatePut $request)
+    {
+        Auth::user()->update([
+            'name' => $request->name,
+        ]);
+        return Auth::user();
     }
 }
