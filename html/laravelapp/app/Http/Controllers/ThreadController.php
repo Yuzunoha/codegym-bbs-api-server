@@ -19,11 +19,12 @@ class ThreadController extends Controller
 
     public function create(ThreadCreatePost $request)
     {
-        return Thread::create([
+        $thread = Thread::create([
             'user_id'    => Auth::id(),
             'title'      => $request->title,
             'ip_address' => $this->utilService->getIp(),
         ]);
+        return Thread::with('user')->find($thread->id);
     }
 
     public function select(Request $request)
