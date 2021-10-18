@@ -9,4 +9,9 @@ class Thread extends ModelBase
         'title',
         'ip_address',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
