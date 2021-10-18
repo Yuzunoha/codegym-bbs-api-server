@@ -2,14 +2,8 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Reply extends Model
+class Reply extends ModelBase
 {
-    use HasFactory;
-
     protected $fillable = [
         'thread_id',
         'number',
@@ -18,18 +12,6 @@ class Reply extends Model
         'ip_address',
     ];
 
-    /**
-     * 配列/JSONシリアル化の日付を準備
-     *
-     * @param  \DateTimeInterface  $date
-     * @return string
-     */
-    protected function serializeDate(DateTimeInterface $date)
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
-    // PostContentsへの関連を定義します.
     public function user()
     {
         return $this->belongsTo(User::class);
