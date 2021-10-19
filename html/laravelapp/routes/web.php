@@ -26,7 +26,7 @@ response:
 
 Route::post('/register', 'UserController@register'); // ユーザ登録
 /*
-メソッド: post
+method: post
 body:
   - name
   - email
@@ -46,9 +46,16 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     replies/3  リプライ一件
     */
 
+    Route::post('/logout', 'UserController@logout'); // ログアウト
+    /*
+    概要: ログインユーザのトークンをサーバから削除する
+    header: トークン
+    response:
+      - メッセージ
+    */
+
     Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
     /*
-    method: get
     header: トークン
     response:
       - ログインユーザ
@@ -56,7 +63,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
 
     Route::get('/users', 'UserController@select'); // ユーザ取得
     /*
-    method: get
     header: トークン
     body:
       - q (任意)
@@ -65,21 +71,26 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデルのリスト
     */
 
-    Route::post('/logout', 'UserController@logout'); // ログアウト
+    Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
     /*
-    概要: ログインユーザのトークンをサーバから削除する
-    method: post
+    概要: ログインユーザを削除する
     header: トークン
     response:
       - メッセージ
     */
 
-    Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
     Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事
+    /*
+    概要: ログインユーザを編集する
+    header: トークン
+    body:
+      - name
+    response:
+      - 編集後のモデル
+    */
 
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     /*
-    method: get
     header: トークン
     query string:
       - q (任意)
@@ -89,6 +100,14 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     */
 
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
+    /*
+    概要: スレッドを作成する
+    header: トークン
+    body:
+      - title
+    response:
+      - 作成したスレッド
+    */
     // TODO: スレッド単体取得
     // TODO: リプライ単体取得
 
