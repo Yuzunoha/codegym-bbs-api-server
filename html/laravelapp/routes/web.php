@@ -16,14 +16,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', 'UserController@login')->name('login'); // ログイン(トークン発行)
 /*
-メソッド: post
+method: post
 body:
   - email
   - password
 response:
   - トークン
 */
+
 Route::post('/register', 'UserController@register'); // ユーザ登録
+/*
+メソッド: post
+body:
+  - name
+  - email
+  - password
+response:
+  - 作成したモデル
+*/
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/users', 'UserController@selectLoginUser'); // ログインユーザ取得
@@ -33,6 +43,15 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事
 
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
+    /*
+メソッド: get
+header: トークン
+query string:
+  - q (任意)
+    - あいまい検索のキーワード
+response:
+  - モデルのリスト
+*/
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
     // TODO: スレッド単体取得
     // TODO: リプライ単体取得
