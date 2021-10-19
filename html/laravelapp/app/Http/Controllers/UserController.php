@@ -115,4 +115,9 @@ class UserController extends Controller
     {
         return Auth::user();
     }
+
+    public function selectById($id)
+    {
+        return User::find($id);
+    }
 }

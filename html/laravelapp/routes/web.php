@@ -54,6 +54,17 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - メッセージ
     */
 
+    Route::get('/users/{id}', 'UserController@selectById'); // ユーザ1件取得
+    /*
+    概要: id指定でユーザを取得する
+    header: トークン
+    url parameter:
+      - id
+        - ユーザid
+    response:
+      - ユーザ
+    */
+
     Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
     /*
     header: トークン
