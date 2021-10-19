@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', 'UserController@login')->name('login'); // ログイン(トークン発行)
+/*
+メソッド: post
+body:
+  - email
+  - password
+response:
+  - トークン
+*/
 Route::post('/register', 'UserController@register'); // ユーザ登録
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
