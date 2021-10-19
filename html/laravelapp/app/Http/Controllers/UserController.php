@@ -102,8 +102,12 @@ class UserController extends Controller
         return Auth::user();
     }
 
-    public function selectLoginUser()
+    public function select(Request $request)
     {
-        return Auth::user();
+        $builder = User::query();
+        if ($request->q) {
+            $builder = $builder->where('name', 'LIKE', '%' . $request->q . '%');
+        }
+        return $builder->paginate($request->per_page);
     }
 }
