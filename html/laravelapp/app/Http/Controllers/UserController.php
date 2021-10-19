@@ -110,4 +110,9 @@ class UserController extends Controller
         }
         return $builder->paginate($request->per_page);
     }
+
+    public function selectAuth()
+    {
+        return Auth::user();
+    }
 }

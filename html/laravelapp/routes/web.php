@@ -36,7 +36,25 @@ response:
 */
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
-    Route::get('/users', 'UserController@selectLoginUser'); // ログインユーザ取得
+    Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
+    /*
+メソッド: get
+header: トークン
+response:
+  - ログインユーザ
+*/
+
+    Route::get('/users', 'UserController@select'); // ユーザ取得
+    /*
+method: get
+header: トークン
+body:
+  - q (任意)
+    - nameをあいまい検索するキーワード
+response:
+  - モデルのリスト
+*/
+
     /*
 以下全てgetメソッド
 users      ユーザ一覧or検索(keyword)
@@ -55,11 +73,10 @@ replies/3  リプライ一件
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     /*
 メソッド: get
-概要: 
 header: トークン
 query string:
   - q (任意)
-    - タイトルをあいまい検索するキーワード
+    - titleをあいまい検索するキーワード
 response:
   - モデルのリスト
 */
