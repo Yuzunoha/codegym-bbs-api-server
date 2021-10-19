@@ -37,6 +37,16 @@ response:
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/users', 'UserController@selectLoginUser'); // ログインユーザ取得
+    /*
+以下全てgetメソッド
+users      ユーザ一覧or検索(keyword)
+users/3    ユーザ一件
+threads    スレッド一覧or検索(keyword)
+threads/3  スレッド一件
+replies    リプライ検索(thread_id or/and keyword)
+replies/3  リプライ一件
+*/
+
     Route::get('/users/list', 'UserController@selectAll'); // ユーザ一覧取得
     Route::post('/logout', 'UserController@logout'); // ログアウト
     Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
