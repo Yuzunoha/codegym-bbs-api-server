@@ -36,50 +36,58 @@ response:
 */
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
+    /*
+    以下全てgetメソッド
+    users      ユーザ一覧or検索(keyword)
+    users/3    ユーザ一件
+    threads    スレッド一覧or検索(keyword)
+    threads/3  スレッド一件
+    replies    リプライ検索(thread_id or/and keyword)
+    replies/3  リプライ一件
+    */
+
     Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
     /*
-メソッド: get
-header: トークン
-response:
-  - ログインユーザ
-*/
+    method: get
+    header: トークン
+    response:
+      - ログインユーザ
+    */
 
     Route::get('/users', 'UserController@select'); // ユーザ取得
     /*
-method: get
-header: トークン
-body:
-  - q (任意)
-    - nameをあいまい検索するキーワード
-response:
-  - モデルのリスト
-*/
+    method: get
+    header: トークン
+    body:
+      - q (任意)
+        - nameをあいまい検索するキーワード
+    response:
+      - モデルのリスト
+    */
 
-    /*
-以下全てgetメソッド
-users      ユーザ一覧or検索(keyword)
-users/3    ユーザ一件
-threads    スレッド一覧or検索(keyword)
-threads/3  スレッド一件
-replies    リプライ検索(thread_id or/and keyword)
-replies/3  リプライ一件
-*/
-
-    Route::get('/users/list', 'UserController@selectAll'); // ユーザ一覧取得
     Route::post('/logout', 'UserController@logout'); // ログアウト
+    /*
+    概要: ログインユーザのトークンをサーバから削除する
+    method: post
+    header: トークン
+    response:
+      - メッセージ
+    */
+
     Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
     Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事
 
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     /*
-メソッド: get
-header: トークン
-query string:
-  - q (任意)
-    - titleをあいまい検索するキーワード
-response:
-  - モデルのリスト
-*/
+    method: get
+    header: トークン
+    query string:
+      - q (任意)
+        - titleをあいまい検索するキーワード
+    response:
+      - モデルのリスト
+    */
+
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
     // TODO: スレッド単体取得
     // TODO: リプライ単体取得
