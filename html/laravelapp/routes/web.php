@@ -45,10 +45,11 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     /*
 メソッド: get
+概要: 
 header: トークン
 query string:
   - q (任意)
-    - あいまい検索のキーワード
+    - タイトルをあいまい検索するキーワード
 response:
   - モデルのリスト
 */

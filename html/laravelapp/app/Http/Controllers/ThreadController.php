@@ -30,8 +30,8 @@ class ThreadController extends Controller
     public function select(Request $request)
     {
         $builder = Thread::with('user');
-        if ($request->search) {
-            $builder = $builder->where('title', 'LIKE', '%' . $request->search . '%');
+        if ($request->q) {
+            $builder = $builder->where('title', 'LIKE', '%' . $request->q . '%');
         }
         return $builder->paginate($request->per_page);
     }
