@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     */
 
     Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
+    // TODOだめだこれ。URLパラメタ作戦やめないと
     /*
     header: トークン
     response:
@@ -110,13 +111,13 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデルのリスト
     */
 
-    Route::get('/threads/{id}', 'ThreadController@selectById'); // スレッド作成
+    Route::get('/threads/{id}', 'ThreadController@selectById'); // スレッド取得(単体)
     /*
     概要: id指定でスレッドを取得する。レスは含まない
     header: トークン
     url parameter:
       - id
-        - ユーザid
+        - スレッドid
     response:
       - モデル
     */
@@ -131,9 +132,22 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - 作成したスレッド
     */
 
-    // TODO: リプライ単体取得
-
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
+    /*
+    作り中
+    */
+
+    Route::get('/replies/{id}', 'ReplyController@selectById'); // リプライ取得(単体)
+    /*
+    概要: id指定でリプライを取得する
+    header: トークン
+    url parameter:
+      - id
+        - リプライid
+    response:
+      - モデル
+    */
+
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
     Route::delete('/replies', 'ReplyController@deleteOwnReply'); // リプライ削除
     Route::patch('/replies', 'ReplyController@updateOwnReply'); // リプライ編集

@@ -100,4 +100,9 @@ class ReplyController extends Controller
         ]);
         return Reply::with('user')->find($reply_id);
     }
+
+    public function selectById($id)
+    {
+        return Reply::with('user')->find($id);
+    }
 }

@@ -113,6 +113,8 @@ class UserController extends Controller
 
     public function selectAuth()
     {
+        dd(1);
+        return 1;
         return Auth::user();
     }
 
