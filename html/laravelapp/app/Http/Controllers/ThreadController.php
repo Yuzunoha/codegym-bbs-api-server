@@ -35,4 +35,9 @@ class ThreadController extends Controller
         }
         return $builder->paginate($request->per_page);
     }
+
+    public function selectById($id)
+    {
+        return Thread::with('user')->find($id);
+    }
 }

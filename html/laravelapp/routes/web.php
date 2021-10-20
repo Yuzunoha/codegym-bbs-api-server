@@ -62,7 +62,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - id
         - ユーザid
     response:
-      - ユーザ
+      - モデル
     */
 
     Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
@@ -110,6 +110,17 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデルのリスト
     */
 
+    Route::get('/threads/{id}', 'ThreadController@selectById'); // スレッド作成
+    /*
+    概要: id指定でスレッドを取得する。レスは含まない
+    header: トークン
+    url parameter:
+      - id
+        - ユーザid
+    response:
+      - モデル
+    */
+
     Route::post('/threads', 'ThreadController@create'); // スレッド作成
     /*
     概要: スレッドを作成する
@@ -119,7 +130,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     response:
       - 作成したスレッド
     */
-    // TODO: スレッド単体取得
+
     // TODO: リプライ単体取得
 
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
