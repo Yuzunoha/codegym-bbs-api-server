@@ -111,13 +111,6 @@ class UserController extends Controller
         return $builder->paginate($request->per_page);
     }
 
-    public function selectAuth()
-    {
-        dd(1);
-        return 1;
-        return Auth::user();
-    }
-
     public function selectById($id)
     {
         return User::find($id);

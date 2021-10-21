@@ -65,14 +65,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデル
     */
 
-    Route::get('/users/auth', 'UserController@selectAuth'); // ログインユーザ取得
-    // TODOだめだこれ。URLパラメタ作戦やめないと
-    /*
-    header: トークン
-    response:
-      - ログインユーザ
-    */
-
     Route::get('/users', 'UserController@select'); // ユーザ取得
     /*
     header: トークン
