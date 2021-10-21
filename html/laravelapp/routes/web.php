@@ -152,7 +152,26 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     */
 
     Route::delete('/replies', 'ReplyController@deleteOwnReply'); // リプライ削除
+    /*
+    概要: リプライを削除する。他人のリプライは編集できない
+    header: トークン
+    body:
+      - thread_id
+    response:
+      - メッセージ
+    */
+
     Route::patch('/replies', 'ReplyController@updateOwnReply'); // リプライ編集
+    /*
+    概要: リプライを編集する。他人のリプライは編集できない
+    header: トークン
+    body:
+      - thread_id
+      - text
+    response:
+      - モデル
+    */
+
     // TODO: リプライ検索(スレッド指定ありなし両方)
 });
 
