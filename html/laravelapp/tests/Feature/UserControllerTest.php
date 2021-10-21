@@ -18,9 +18,21 @@ class UserControllerTest extends TestCase
         $this->新規登録してトークンを取得する();
     }
 
-    /**
-     * 降順で取得できるか
-     */
+    public function test_新規登録とloginと1件取得()
+    {
+        $input = ['name' => 'a', 'email' => 'a@a.com', 'password' => 'a',];
+        $expected = $this->post('/register', $input)->getData();
+        $response = $this->post('/login', $input);
+        $response->assertOk();
+        $token = $response->getData()->token;
+        $actual = $this->get("/users/{$expected->id}", [
+            'Authorization' => "Bearer {$token}"
+        ])->getData();
+        foreach (['id', 'name', 'email'] as $key) {
+            $this->assertEquals($expected->$key, $actual->$key);
+        }
+    }
+
     public function test_一覧取得()
     {
         $input = [
