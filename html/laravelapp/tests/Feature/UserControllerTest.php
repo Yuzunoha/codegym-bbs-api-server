@@ -31,14 +31,11 @@ class UserControllerTest extends TestCase
         foreach ($input as $e) {
             $this->post('/register', $e);
         }
-        $expected = array_merge([$this->getTestUserData()], $input);
-        $len = count($expected);
-        $response = $this->get('/users', $this->getAuthorizationHeader());
-        $actual = $response->getData()->data;
-        $keys = ['name', 'email',];
-        for ($i = 0; $i < $len; $i++) {
-            foreach ($keys as $key) {
-                $this->assertEquals($expected[$len - 1 - $i][$key], $actual[$i]->$key);
+        $expected = array_reverse(array_merge([$this->getTestUserData()], $input));
+        $actual = $this->get('/users', $this->getAuthorizationHeader())->getData()->data;
+        for ($i = 0; $i < count($expected); $i++) {
+            foreach (['name', 'email'] as $key) {
+                $this->assertEquals($expected[$i][$key], $actual[$i]->$key);
             }
         }
     }
