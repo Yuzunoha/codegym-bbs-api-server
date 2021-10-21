@@ -126,7 +126,12 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
 
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
     /*
-    作り中
+    概要: スレッドid指定でリプライ一覧を降順で取得する
+    header: トークン
+    url parameter:
+      - thread_id
+    response:
+      - モデルのリスト
     */
 
     Route::get('/replies/{id}', 'ReplyController@selectById'); // リプライ取得(単体)
