@@ -14,4 +14,13 @@ abstract class TestCase extends BaseTestCase
         print_r($a);
         echo PHP_EOL;
     }
+
+    protected function getTestUserData()
+    {
+        return [
+            'name'     => 'テスト太郎',
+            'email'    => 'test_taro@gmail.com',
+            'password' => 'test_taro_123',
+        ];
+    }
 }

@@ -9,16 +9,20 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $token;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        // token
-        $response = $this->get('/users', [
-            'Authorization' => 'aaa',
-        ]);
+        // テストユーザの情報
+        $testUserData = $this->getTestUserData();
 
-        $this->accessToken = 'token!!!!';
+        // 新規登録
+        $this->post('/register', $testUserData);
+
+        // ログイン
+        $this->token = $this->post('/login', $testUserData)->getData()->token;
     }
 
     /**
