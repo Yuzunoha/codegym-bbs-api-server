@@ -73,11 +73,6 @@ class UserController extends Controller
         ];
     }
 
-    public function selectAll(Request $request)
-    {
-        return User::paginate($request->per_page);
-    }
-
     public function deleteLoginUser()
     {
         // 自分のリプライを全て削除する(スレッドは残る)
@@ -108,7 +103,7 @@ class UserController extends Controller
         if ($request->q) {
             $builder = $builder->where('name', 'LIKE', '%' . $request->q . '%');
         }
-        return $builder->paginate($request->per_page);
+        return $builder->orderBy('id', 'desc')->paginate($request->per_page);
     }
 
     public function selectById($id)
