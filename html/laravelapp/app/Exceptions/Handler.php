@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof AuthenticationException) {
             $status = 401;
         } else {
-            $status = $e->getCode() ?: 400;
+            $status = intval($e->getCode()) ?: 400;
         }
         return $status;
     }
