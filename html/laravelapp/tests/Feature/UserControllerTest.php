@@ -2,12 +2,18 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
     /**
      * A basic feature test example.
      *
@@ -17,6 +23,11 @@ class UserControllerTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        $response->assertStatus(400);
+    }
+
+    public function testIndex()
+    {
+        $this->assertTrue(true);
     }
 }
