@@ -20,14 +20,14 @@ class ReplyRepositoryTest extends TestCase
         $this->rep = app(ReplyRepository::class);
     }
 
-    public function test_insert()
+    public function _test_insert()
     {
         [$thread_id, $user_id, $text, $ip_address] = [1, 2, '3', '4'];
         $replyModel = $this->rep->insert($thread_id, $user_id, $text, $ip_address);
         $this->assertDatabaseHas('replies', $replyModel->toArray());
     }
 
-    public function test_selectAll()
+    public function _test_selectAll()
     {
         $this->rep->insert(1, 1, 'あ', '0.0.0.0');
         $this->rep->insert(1, 2, 'い', '0.0.0.0');

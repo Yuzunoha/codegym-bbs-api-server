@@ -25,14 +25,14 @@ class UserTest extends TestCase
         ];
     }
 
-    public function test_登録できる()
+    public function _test_登録できる()
     {
         User::create($this->attributes);
         print_r(User::get()->toArray());
         $this->assertDatabaseHas('users', $this->attributes);
     }
 
-    public function test_確認()
+    public function _test_確認()
     {
         print_r(User::get()->toArray());
         $this->assertTrue(1 === 1);

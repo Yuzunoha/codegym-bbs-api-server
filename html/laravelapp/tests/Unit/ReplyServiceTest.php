@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ReplyServiceTest extends TestCase
 {
-    public function test_投稿()
+    public function _test_投稿()
     {
         [$thread_id, $user_id, $text, $ip_address] = [1, 2, '3', '4'];
         $mockReplyRepository = (object)Mockery::mock(ReplyRepository::class);
