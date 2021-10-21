@@ -32,7 +32,7 @@ body:
   - email
   - password
 response:
-  - 作成したモデル
+  - モデル
 */
 
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
