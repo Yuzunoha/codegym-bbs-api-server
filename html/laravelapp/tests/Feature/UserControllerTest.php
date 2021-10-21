@@ -26,8 +26,11 @@ class UserControllerTest extends TestCase
         $response->assertStatus(400);
     }
 
-    public function testIndex()
+    public function test_ユーザ1件取得()
     {
+        $this->p('test_ユーザ1件取得');
+        $this->p('test_ユーザ1件取得');
+
         $this->assertTrue(true);
     }
 }
