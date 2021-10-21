@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function setUp(): void
     {
@@ -44,6 +44,19 @@ class UserControllerTest extends TestCase
     public function test_ユーザ1件取得()
     {
         // TODO
+        $this->assertTrue(true);
+    }
+
+    public function test_新規登録()
+    {
+        $response = $this->post('/register', [
+            'name' => 'a',
+            'email' => 'a@a.com',
+            'password' => 'a',
+        ]);
+
+        $this->p($response->getData());
+
         $this->assertTrue(true);
     }
 }
