@@ -15,61 +15,38 @@ class UserControllerTest extends TestCase
     {
         parent::setUp();
 
-        // テストユーザの情報
-        $testUserData = $this->getTestUserData();
-
-        // 新規登録
-        $this->post('/register', $testUserData);
-
-        // ログイン
-        $this->token = $this->post('/login', $testUserData)->getData()->token;
+        $this->新規登録してトークンを取得する();
     }
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * 降順で取得できるか
      */
-    public function test_example()
+    public function test_一覧取得()
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(400);
-    }
-
-    public function test_認証失敗()
-    {
-        $response = $this->get('/users', [
-            'Authorization' => 'aaa',
+        $this->post('/register', [
+            'name' => 'a',
+            'email' => 'a@a.com',
+            'password' => 'a',
         ]);
-
-        // これでレスポンスデータが取れる
-        // $this->p($response->decodeResponseJson());
-
-        $response->assertUnauthorized();
-    }
-
-    public function test_ユーザ1件取得()
-    {
-        // TODO
+        $this->post('/register', [
+            'name' => 'b',
+            'email' => 'b@b.com',
+            'password' => 'b',
+        ]);
+        $this->post('/register', [
+            'name' => 'c',
+            'email' => 'c@c.com',
+            'password' => 'c',
+        ]);
+        $response = $this->get('/users', $this->getAuthorizationHeader());
+        $this->p($response->getData());
         $this->assertTrue(true);
     }
 
-    public function test_新規登録()
+    public function test_一覧取得2()
     {
-        $testUserData = [
-            'name'     => 'テスト太郎',
-            'email'    => 'test_taro@gmail.com',
-            'password' => 'test_taro_123',
-        ];
-
-        $this->post('/register', $testUserData);
-        $response = $this->post('/login', $testUserData);
-        $token = $response->getData()->token;
-
+        $response = $this->get('/users', $this->getAuthorizationHeader());
         $this->p($response->getData());
-        $this->p($token);
-
         $this->assertTrue(true);
     }
 }
