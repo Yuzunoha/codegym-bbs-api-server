@@ -23,23 +23,23 @@ class UserControllerTest extends TestCase
      */
     public function test_一覧取得()
     {
-        $this->post('/register', [
-            'name' => 'a',
-            'email' => 'a@a.com',
-            'password' => 'a',
-        ]);
-        $this->post('/register', [
-            'name' => 'b',
-            'email' => 'b@b.com',
-            'password' => 'b',
-        ]);
-        $this->post('/register', [
-            'name' => 'c',
-            'email' => 'c@c.com',
-            'password' => 'c',
-        ]);
+        $input = [
+            ['name' => 'a', 'email' => 'a@a.com', 'password' => 'a',],
+            ['name' => 'b', 'email' => 'b@b.com', 'password' => 'b',],
+            ['name' => 'c', 'email' => 'c@c.com', 'password' => 'c',],
+        ];
+        foreach ($input as $e) {
+            $this->post('/register', $e);
+        }
+        $expected = array_merge([$this->getTestUserData()], $input);
+        $len = count($expected);
         $response = $this->get('/users', $this->getAuthorizationHeader());
-        $this->p($response->getData());
-        $this->assertTrue(true);
+        $actual = $response->getData()->data;
+        $keys = ['name', 'email',];
+        for ($i = 0; $i < $len; $i++) {
+            foreach ($keys as $key) {
+                $this->assertEquals($expected[$len - 1 - $i][$key], $actual[$i]->$key);
+            }
+        }
     }
 }
