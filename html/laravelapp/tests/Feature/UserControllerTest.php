@@ -14,6 +14,10 @@ class UserControllerTest extends TestCase
         parent::setUp();
 
         // token
+        $response = $this->get('/users', [
+            'Authorization' => 'aaa',
+        ]);
+
         $this->accessToken = 'token!!!!';
     }
 
@@ -49,13 +53,18 @@ class UserControllerTest extends TestCase
 
     public function test_新規登録()
     {
-        $response = $this->post('/register', [
-            'name' => 'a',
-            'email' => 'a@a.com',
-            'password' => 'a',
-        ]);
+        $testUserData = [
+            'name'     => 'テスト太郎',
+            'email'    => 'test_taro@gmail.com',
+            'password' => 'test_taro_123',
+        ];
+
+        $this->post('/register', $testUserData);
+        $response = $this->post('/login', $testUserData);
+        $token = $response->getData()->token;
 
         $this->p($response->getData());
+        $this->p($token);
 
         $this->assertTrue(true);
     }
