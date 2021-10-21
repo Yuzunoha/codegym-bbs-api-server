@@ -25,6 +25,11 @@ class UserTest extends TestCase
         ];
     }
 
+    public function test_example()
+    {
+        $this->assertTrue(true);
+    }
+
     public function _test_登録できる()
     {
         User::create($this->attributes);

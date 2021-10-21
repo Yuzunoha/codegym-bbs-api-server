@@ -17,7 +17,13 @@ class ReplyRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->rep = app(ReplyRepository::class);
+        // 存在しないクラス
+        // $this->rep = app(ReplyRepository::class);
+    }
+
+    public function test_example()
+    {
+        $this->assertTrue(true);
     }
 
     public function _test_insert()
