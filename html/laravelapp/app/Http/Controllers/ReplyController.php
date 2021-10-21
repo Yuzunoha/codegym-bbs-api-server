@@ -58,7 +58,7 @@ class ReplyController extends Controller
         }
         return Reply::with('user')
             ->where('thread_id', $thread_id)
-            ->orderBy('number')
+            ->orderBy('number', 'desc')
             ->paginate($request->per_page);
     }
 
