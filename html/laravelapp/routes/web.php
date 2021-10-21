@@ -121,7 +121,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     body:
       - title
     response:
-      - 作成したスレッド
+      - モデル
     */
 
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
@@ -141,6 +141,16 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     */
 
     Route::post('/replies', 'ReplyController@create'); // リプライ作成
+    /*
+    概要: リプライを作成する
+    header: トークン
+    body:
+      - thread_id
+      - text
+    response:
+      - モデル
+    */
+
     Route::delete('/replies', 'ReplyController@deleteOwnReply'); // リプライ削除
     Route::patch('/replies', 'ReplyController@updateOwnReply'); // リプライ編集
     // TODO: リプライ検索(スレッド指定ありなし両方)
