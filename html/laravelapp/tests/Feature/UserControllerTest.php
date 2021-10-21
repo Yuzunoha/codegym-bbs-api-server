@@ -12,6 +12,9 @@ class UserControllerTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        // token
+        $this->accessToken = 'token!!!!';
     }
 
     /**
@@ -26,11 +29,21 @@ class UserControllerTest extends TestCase
         $response->assertStatus(400);
     }
 
+    public function test_認証失敗()
+    {
+        $response = $this->get('/users', [
+            'Authorization' => 'aaa',
+        ]);
+
+        // これでレスポンスデータが取れる
+        // $this->p($response->decodeResponseJson());
+
+        $response->assertUnauthorized();
+    }
+
     public function test_ユーザ1件取得()
     {
-        $this->p('test_ユーザ1件取得');
-        $this->p('test_ユーザ1件取得');
-
+        // TODO
         $this->assertTrue(true);
     }
 }
