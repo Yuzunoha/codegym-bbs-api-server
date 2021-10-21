@@ -42,11 +42,4 @@ class UserControllerTest extends TestCase
         $this->p($response->getData());
         $this->assertTrue(true);
     }
-
-    public function test_一覧取得2()
-    {
-        $response = $this->get('/users', $this->getAuthorizationHeader());
-        $this->p($response->getData());
-        $this->assertTrue(true);
-    }
 }
