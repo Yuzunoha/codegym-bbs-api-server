@@ -17,8 +17,10 @@ class UserController extends Controller
     protected $utilService;
     protected $userService;
 
-    public function __construct(UtilService $utilService, UserService $userService)
-    {
+    public function __construct(
+        UtilService $utilService,
+        UserService $userService
+    ) {
         $this->utilService = $utilService;
         $this->userService = $userService;
     }
@@ -42,48 +44,31 @@ class UserController extends Controller
 
     public function logout()
     {
-        /* 有効なトークンを全て削除する */
-        Auth::user()->tokens()->delete();
-        return [
-            'message' => 'ログアウトしました。既存のトークンは失効しました。',
-        ];
+        return $this->userService->logout();
     }
 
     public function deleteLoginUser()
     {
-        // 自分のリプライを全て削除する(スレッドは残る)
-        Reply::where('user_id', Auth::id())->delete();
-
-        // 自分のトークンを全て削除する
-        Auth::user()->tokens()->delete();
-
-        // 自分のユーザ情報を削除する
-        Auth::user()->delete();
-
-        return [
-            'message' => 'ユーザ情報を削除しました。',
-        ];
+        return $this->userService->deleteLoginUser();
     }
 
     public function updateUser(UserPatch $request)
     {
-        Auth::user()->update([
-            'name' => $request->name,
-        ]);
-        return Auth::user();
+        return $this->userService->updateUser(
+            $request->name
+        );
     }
 
     public function select(Request $request)
     {
-        $builder = User::query();
-        if ($request->q) {
-            $builder = $builder->where('name', 'LIKE', '%' . $request->q . '%');
-        }
-        return $builder->orderBy('id', 'desc')->paginate($request->per_page);
+        return $this->userService->select(
+            $request->per_page,
+            $request->q
+        );
     }
 
     public function selectById($id)
     {
-        return User::find($id);
+        return $this->userService->selectById($id);
     }
 }
