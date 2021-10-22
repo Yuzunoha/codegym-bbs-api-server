@@ -58,10 +58,10 @@ class UserService
         ]);
     }
 
-    public function logout()
+    public function logout($loginUser)
     {
         /* 有効なトークンを全て削除する */
-        Auth::user()->tokens()->delete();
+        $loginUser->tokens()->delete();
         return [
             'message' => 'ログアウトしました。既存のトークンは失効しました。',
         ];

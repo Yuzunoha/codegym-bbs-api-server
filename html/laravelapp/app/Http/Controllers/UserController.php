@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserPatch;
 use App\Http\Requests\UserRegisterPost;
-use App\Models\Reply;
-use App\Models\User;
 use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Request;
@@ -44,7 +42,7 @@ class UserController extends Controller
 
     public function logout()
     {
-        return $this->userService->logout();
+        return $this->userService->logout(Auth::user());
     }
 
     public function deleteLoginUser()

@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
 use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Mockery;
 use Tests\TestCase;
 
 class UserServiceTest extends TestCase
@@ -93,8 +96,11 @@ class UserServiceTest extends TestCase
 
     public function test_正常_logout()
     {
-        // TODO
         $userService = new UserService(new UtilService);
-        $this->assertTrue(true);
+        ['email' => $email] = $this->getTestUserData();
+        $loginUser = User::where('email', $email)->first();
+        $userService->logout($loginUser);
+        // 認証に失敗すること
+        $this->get('/users', $this->getAuthorizationHeader())->assertStatus(401);
     }
 }
