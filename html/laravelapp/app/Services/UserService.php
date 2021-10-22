@@ -40,4 +40,19 @@ class UserService
             'token' => $token->plainTextToken,
         ];
     }
+
+    public function register($name, $email, $password)
+    {
+        if (User::where('email', $email)->count()) {
+            /* emailが使われていた */
+            $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
+        }
+
+        /* 作成して返却する */
+        return User::create([
+            'name'     => $name,
+            'email'    => $email,
+            'password' => Hash::make($password),
+        ]);
+    }
 }

@@ -11,7 +11,6 @@ use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -26,23 +25,19 @@ class UserController extends Controller
 
     public function login(UserLoginPost $request)
     {
-        return $this->userService->login($request->email, $request->password);
+        return $this->userService->login(
+            $request->email,
+            $request->password
+        );
     }
 
     public function register(UserRegisterPost $request)
     {
-        $email = $request->email;
-        if (User::where('email', $email)->count()) {
-            /* emailが使われていた */
-            $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
-        }
-
-        /* 作成して返却する */
-        return User::create([
-            'name'     => $request->name,
-            'email'    => $email,
-            'password' => Hash::make($request->password),
-        ]);
+        return $this->userService->register(
+            $request->name,
+            $request->email,
+            $request->password
+        );
     }
 
     public function logout()
