@@ -47,7 +47,7 @@ class UserController extends Controller
 
     public function deleteLoginUser()
     {
-        return $this->userService->deleteLoginUser();
+        return $this->userService->deleteLoginUser(Auth::user());
     }
 
     public function updateUser(UserPatch $request)

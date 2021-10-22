@@ -67,16 +67,16 @@ class UserService
         ];
     }
 
-    public function deleteLoginUser()
+    public function deleteLoginUser($loginUser)
     {
         // 自分のリプライを全て削除する(スレッドは残る)
-        Reply::where('user_id', Auth::id())->delete();
+        Reply::where('user_id', $loginUser->id)->delete();
 
         // 自分のトークンを全て削除する
-        Auth::user()->tokens()->delete();
+        $loginUser->tokens()->delete();
 
         // 自分のユーザ情報を削除する
-        Auth::user()->delete();
+        $loginUser->delete();
 
         return [
             'message' => 'ユーザ情報を削除しました。',
