@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class UserServiceTest extends TestCase
@@ -56,5 +57,15 @@ class UserServiceTest extends TestCase
         $userService->login($email, $password);
         $response = $this->get('/users', ['Authorization' => "Bearer {$this->token}"]);
         $response->assertStatus(401);
+    }
+
+    public function test_正常_register()
+    {
+        $userService = new UserService(new UtilService);
+        $user = $userService->register($name = 'a', $email = 'a@a.com', $password = Str::random());
+        $this->assertEquals($name, $user->name);
+        $this->assertEquals($email, $user->email);
+        $response = $this->post('/login', ['email' => $email, 'password' => $password]);
+        $response->assertOk();
     }
 }
