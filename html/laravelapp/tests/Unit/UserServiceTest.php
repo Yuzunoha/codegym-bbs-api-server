@@ -22,6 +22,7 @@ class UserServiceTest extends TestCase
         try {
             $userService->login($email . 'a', $password);
         } catch (HttpResponseException $e) {
+
             $a = $e->getResponse()->original;
             $this->assertEquals(400, $a['status']);
             $this->assertEquals('emailとpasswordの組み合わせが不正です。', $a['message']);
@@ -83,5 +84,12 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $a['status']);
             $this->assertEquals("email {$email} は既に登録されています。", $a['message']);
         }
+    }
+
+    public function test_正常_logout()
+    {
+        // TODO
+        $userService = new UserService(new UtilService);
+        $this->assertTrue(true);
     }
 }
