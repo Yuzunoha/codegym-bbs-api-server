@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
+use App\Models\Reply;
+use App\Models\Thread;
 use App\Models\User;
 use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Mockery;
 use Tests\TestCase;
 
 class UserServiceTest extends TestCase
@@ -107,6 +107,33 @@ class UserServiceTest extends TestCase
     public function test_正常_delete()
     {
         $userService = new UserService(new UtilService);
+        ['email' => $email] = $this->getTestUserData();
+        $loginUser = User::where('email', $email)->first();
+        $thread = Thread::create([
+            'user_id'    => $loginUser->id,
+            'title'      => 'ダミータイトル',
+            'ip_address' => 'ダミーIPアドレス',
+        ]);
+        $reply = Reply::create([
+            'thread_id'  => $thread->id,
+            'number'     => 1,
+            'user_id'    => $loginUser->id,
+            'text'       => 'ダミー投稿',
+            'ip_address' => 'ダミーIPアドレス',
+        ]);
+
+        $model = Reply::with('user')->find(1);
+        $ret = $model ? $model->toArray() : 'なし';
+        $this->p($ret);
+        $this->assertTrue(true);
         // tokenが削除されたことを確認する
+    }
+
+    public function test_test()
+    {
+        $model = Reply::with('user')->find(1);
+        $ret = $model ? $model->toArray() : 'なし';
+        $this->p($ret);
+        $this->assertTrue(true);
     }
 }
