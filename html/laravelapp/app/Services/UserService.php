@@ -83,12 +83,12 @@ class UserService
         ];
     }
 
-    public function updateUser($name)
+    public function updateUser($loginUser, $name)
     {
-        Auth::user()->update([
+        $loginUser->update([
             'name' => $name,
         ]);
-        return Auth::user();
+        return User::find($loginUser->id);
     }
 
     public function select($per_page, $q = null)

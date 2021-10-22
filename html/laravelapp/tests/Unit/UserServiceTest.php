@@ -141,4 +141,14 @@ class UserServiceTest extends TestCase
         // 確認:自分のユーザ情報を削除する
         $this->assertEquals(null, User::find($loginUser->id));
     }
+
+    public function test_正常_updateUser()
+    {
+        $userService = new UserService(new UtilService);
+        ['name' => $name, 'email' => $email] = $this->getTestUserData();
+        $loginUser = User::where('email', $email)->first();
+        $nameUpdated = $name . '編集しました';
+        $userService->updateUser($loginUser, $nameUpdated);
+        $this->assertEquals($nameUpdated, User::find($loginUser->id)->name);
+    }
 }

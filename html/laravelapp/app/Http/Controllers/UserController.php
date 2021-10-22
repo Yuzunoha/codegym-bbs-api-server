@@ -53,6 +53,7 @@ class UserController extends Controller
     public function updateUser(UserPatch $request)
     {
         return $this->userService->updateUser(
+            Auth::user(),
             $request->name
         );
     }
