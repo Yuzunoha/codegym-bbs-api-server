@@ -94,7 +94,7 @@ class UserService
     public function select($per_page, $q = null)
     {
         $builder = $q
-            ? User::where('name', 'LIKE', '%' . $q . '%')
+            ? User::where('name', 'LIKE', '%' . $q . '%')->orWhere('email', 'LIKE', '%' . $q . '%')
             : User::query();
         return $builder->orderBy('id', 'desc')->paginate($per_page);
     }

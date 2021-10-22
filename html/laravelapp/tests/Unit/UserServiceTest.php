@@ -151,4 +151,24 @@ class UserServiceTest extends TestCase
         $userService->updateUser($loginUser, $nameUpdated);
         $this->assertEquals($nameUpdated, User::find($loginUser->id)->name);
     }
+
+    public function test_正常_select_name()
+    {
+        $userService = new UserService(new UtilService);
+        User::create([
+            'name' => 'a',
+            'email' => 'A@gmail.com',
+            'password' => 'pass'
+        ]);
+        User::create([
+            'name' => 'B',
+            'email' => 'b@mymail.net',
+            'password' => 'pass'
+        ]);
+        $this->assertEquals(3, count($userService->select(20)->toArray()['data']));
+        $this->assertEquals('B', $userService->select(20, 'B')->toArray()['data'][0]['name']);
+        $this->assertEquals('a', $userService->select(20, 'A@gmail')->toArray()['data'][0]['name']);
+        $this->assertEquals(1, count($userService->select(20, 'mymail')->toArray()['data']));
+        $this->assertEquals(3, count($userService->select(20, 'mail')->toArray()['data']));
+    }
 }
