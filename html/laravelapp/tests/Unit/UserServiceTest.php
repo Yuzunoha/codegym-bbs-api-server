@@ -68,4 +68,17 @@ class UserServiceTest extends TestCase
         $response = $this->post('/login', ['email' => $email, 'password' => $password]);
         $response->assertOk();
     }
+
+    public function test_異常_email重複()
+    {
+        $userService = new UserService(new UtilService);
+        ['email' => $email] = $this->getTestUserData();
+        try {
+            $userService->register('a', $email, Str::random());
+        } catch (HttpResponseException $e) {
+            $a = $e->getResponse()->original;
+            $this->assertEquals(400, $a['status']);
+            $this->assertEquals("email {$email} は既に登録されています。", $a['message']);
+        }
+    }
 }
