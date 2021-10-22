@@ -35,9 +35,12 @@ class UserServiceTest extends TestCase
         try {
             $userService->login($email, $password . 'a');
         } catch (HttpResponseException $e) {
-            $a = $e->getResponse()->original;
-            $this->assertEquals(400, $a['status']);
-            $this->assertEquals('emailとpasswordの組み合わせが不正です。', $a['message']);
+            $expected = json_encode([
+                'status' => 400,
+                'message' => 'emailとpasswordの組み合わせが不正です。',
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
         }
     }
 
