@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -114,26 +115,30 @@ class UserServiceTest extends TestCase
             'title'      => 'ダミータイトル',
             'ip_address' => 'ダミーIPアドレス',
         ]);
-        $reply = Reply::create([
+        Reply::create([
             'thread_id'  => $thread->id,
             'number'     => 1,
             'user_id'    => $loginUser->id,
             'text'       => 'ダミー投稿',
             'ip_address' => 'ダミーIPアドレス',
         ]);
+        Reply::create([
+            'thread_id'  => $thread->id,
+            'number'     => 1,
+            'user_id'    => $loginUser->id + 1,
+            'text'       => 'ダミー投稿',
+            'ip_address' => 'ダミーIPアドレス',
+        ]);
+        // テスト対象のメソッドを実行する
+        $userService->deleteLoginUser($loginUser);
 
-        $model = Reply::with('user')->find(1);
-        $ret = $model ? $model->toArray() : 'なし';
-        $this->p($ret);
-        $this->assertTrue(true);
-        // tokenが削除されたことを確認する
-    }
+        // 確認:自分のリプライを全て削除する(スレッドは残る)
+        $this->assertEquals(1, Reply::count());
 
-    public function test_test()
-    {
-        $model = Reply::with('user')->find(1);
-        $ret = $model ? $model->toArray() : 'なし';
-        $this->p($ret);
-        $this->assertTrue(true);
+        // 確認:自分のトークンを全て削除する
+        $this->assertEquals(0, count(DB::select('select * from personal_access_tokens')));
+
+        // 確認:自分のユーザ情報を削除する
+        $this->assertEquals(null, User::find($loginUser->id));
     }
 }
