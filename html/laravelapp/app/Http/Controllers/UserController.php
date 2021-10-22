@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLoginPost;
 use App\Http\Requests\UserPatch;
 use App\Http\Requests\UserRegisterPost;
-use App\Http\Requests\UserUpdatePut;
 use App\Models\Reply;
 use App\Models\User;
+use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,36 +16,17 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     protected $utilService;
+    protected $userService;
 
-    public function __construct(UtilService $utilService)
+    public function __construct(UtilService $utilService, UserService $userService)
     {
         $this->utilService = $utilService;
+        $this->userService = $userService;
     }
 
     public function login(UserLoginPost $request)
     {
-        $fnThrow = fn () => $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user) {
-            /* emailが存在しなかった */
-            $fnThrow();
-        }
-        if (!Hash::check($request->password, $user->password)) {
-            /* emailとpasswordが一致しなかった */
-            $fnThrow();
-        }
-
-        /* 1ユーザにつき有効なトークンは1つだけにする */
-        $user->tokens()->delete();
-
-        /* トークンを発行する */
-        $token = $user->createToken('token-name');
-
-        /* トークンを返却する */
-        return [
-            'token' => $token->plainTextToken,
-        ];
+        return $this->userService->login($request->email, $request->password);
     }
 
     public function register(UserRegisterPost $request)
