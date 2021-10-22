@@ -131,13 +131,10 @@ class UserServiceTest extends TestCase
         ]);
         // テスト対象のメソッドを実行する
         $userService->deleteLoginUser($loginUser);
-
         // 確認:自分のリプライを全て削除する(スレッドは残る)
         $this->assertEquals(1, Reply::count());
-
         // 確認:自分のトークンを全て削除する
         $this->assertEquals(0, count(DB::select('select * from personal_access_tokens')));
-
         // 確認:自分のユーザ情報を削除する
         $this->assertEquals(null, User::find($loginUser->id));
     }
