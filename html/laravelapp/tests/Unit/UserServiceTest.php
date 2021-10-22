@@ -103,4 +103,10 @@ class UserServiceTest extends TestCase
         // 認証に失敗すること
         $this->get('/users', $this->getAuthorizationHeader())->assertStatus(401);
     }
+
+    public function test_正常_delete()
+    {
+        $userService = new UserService(new UtilService);
+        // tokenが削除されたことを確認する
+    }
 }
