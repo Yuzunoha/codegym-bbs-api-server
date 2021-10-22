@@ -14,7 +14,7 @@ class UserTest extends TestCase
 
     private $attributes;
 
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
 
