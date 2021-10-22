@@ -12,6 +12,13 @@ abstract class TestCase extends BaseTestCase
 
     protected $token;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->新規登録してトークンを取得する();
+    }
+
     protected function p($a = '')
     {
         echo PHP_EOL;

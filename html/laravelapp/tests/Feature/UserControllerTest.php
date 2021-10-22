@@ -6,13 +6,6 @@ use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->新規登録してトークンを取得する();
-    }
-
     public function test_正常_新規登録とloginと1件取得()
     {
         $input = ['name' => 'a', 'email' => 'a@a.com', 'password' => 'a',];
