@@ -171,4 +171,26 @@ class UserServiceTest extends TestCase
         $this->assertEquals(1, count($userService->select(20, 'mymail')->toArray()['data']));
         $this->assertEquals(3, count($userService->select(20, 'mail')->toArray()['data']));
     }
+
+    public function test_正常_selectById()
+    {
+        $userService = new UserService(new UtilService);
+        User::create([
+            'name' => 'a',
+            'email' => 'A@gmail.com',
+            'password' => 'pass'
+        ]);
+        $user = User::create([
+            'name' => 'B',
+            'email' => 'b@mymail.net',
+            'password' => 'pass'
+        ]);
+        $ret = $userService->selectById($user->id);
+        $expected = $user->toArray();
+        $actual = $ret->toArray();
+        $this->assertEquals(count($expected), count($actual));
+        foreach ($expected as $key => $expectedValue) {
+            $this->assertEquals($expectedValue, $actual[$key]);
+        }
+    }
 }

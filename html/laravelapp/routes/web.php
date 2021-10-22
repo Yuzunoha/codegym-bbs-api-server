@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     body:
       - q (任意)
-        - nameをあいまい検索するキーワード
+        - nameとemailを同時にあいまい検索するキーワード
     response:
       - モデルのリスト
     */
@@ -90,7 +90,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     body:
       - name
     response:
-      - 編集後のモデル
+      - モデル
     */
 
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
