@@ -93,6 +93,16 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデル
     */
 
+    Route::post('/threads', 'ThreadController@create'); // スレッド作成
+    /*
+    概要: スレッドを作成する
+    header: トークン
+    body:
+      - title
+    response:
+      - モデル
+    */
+
     Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
     /*
     header: トークン
@@ -110,16 +120,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     url parameter:
       - id
         - スレッドid
-    response:
-      - モデル
-    */
-
-    Route::post('/threads', 'ThreadController@create'); // スレッド作成
-    /*
-    概要: スレッドを作成する
-    header: トークン
-    body:
-      - title
     response:
       - モデル
     */
