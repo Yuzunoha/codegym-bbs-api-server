@@ -29,6 +29,7 @@ Route::post('/register', 'UserController@register'); // ユーザ登録
 method: post
 body:
   - name
+    - 最大16文字
   - email
   - password
 response:
@@ -60,7 +61,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     url parameter:
       - id
-        - ユーザid
     response:
       - モデル
     */
@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     body:
       - name
+        - 最大16文字
     response:
       - モデル
     */
@@ -99,6 +100,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     body:
       - title
+        - 最大64文字
     response:
       - モデル
     */
@@ -119,7 +121,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     url parameter:
       - id
-        - スレッドid
     response:
       - モデル
     */
@@ -128,7 +129,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     /*
     概要: スレッドid指定でリプライ一覧を降順で取得する
     header: トークン
-    url parameter:
+    query string:
       - thread_id
     response:
       - モデルのリスト
@@ -140,7 +141,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     url parameter:
       - id
-        - リプライid
     response:
       - モデル
     */
@@ -152,6 +152,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     body:
       - thread_id
       - text
+        - 最大1024文字
     response:
       - モデル
     */
@@ -173,6 +174,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     body:
       - thread_id
       - text
+        - 最大1024文字
     response:
       - モデル
     */
