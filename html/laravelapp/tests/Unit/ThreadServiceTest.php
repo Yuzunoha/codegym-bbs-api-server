@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
+use App\Services\ThreadService;
 use App\Services\UserService;
 use App\Services\UtilService;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -17,6 +18,23 @@ class ThreadServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+    }
+
+    public function test_正常_create()
+    {
+        $threadService = new ThreadService(new UtilService);
+
+        // 空であること
+        $this->assertEquals(0, count(Thread::all()));
+
+        // スレッド作成
+        $expected = $threadService->create(1, 'テスト');
+
+        // スレッド取得
+        $actual = Thread::with('user')->find(1);
+
+        // モデルのあいまい比較
+        $this->assertEquals($expected, $actual);
     }
 
     // 個々から下はUserServiceのテストのコピー
