@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Reply;
 use App\Models\Thread;
 use App\Services\ReplyService;
 use App\Services\UtilService;
@@ -12,6 +13,8 @@ class ReplyServiceTest extends TestCase
     protected function insertTestData()
     {
         Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
     }
 
     /*
@@ -41,8 +44,8 @@ class ReplyServiceTest extends TestCase
     {
         $replyService = new ReplyService(new UtilService);
         $this->insertTestData();
-        $actual = $replyService->create(1, 1, 'テキスト');
-        $this->p($actual->toArray());
-        $this->assertTrue(true);
+        $actual = $replyService->create(2, 1, 'テキスト');
+        $expected = Reply::with('user')->find(1);
+        $this->assertEquals($expected, $actual);
     }
 }
