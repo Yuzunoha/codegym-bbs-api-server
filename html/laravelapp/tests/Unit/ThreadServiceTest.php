@@ -69,6 +69,31 @@ class ThreadServiceTest extends TestCase
         }
     }
 
+    public function test_正常_select_検索ip()
+    {
+        $threadService = new ThreadService(new UtilService);
+        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
+        $actual = $threadService->select(20, '5')->toArray()['data'];
+        $expected = array_reverse(Thread::with('user')->where('ip_address', 'LIKE', "%5%")->get()->toArray());
+        $len = count($actual);
+        for ($i = 0; $i < $len; $i++) {
+            $this->assertEquals($expected[$i], $actual[$i]);
+        }
+    }
+
+    public function test_正常_select_検索title()
+    {
+        $threadService = new ThreadService(new UtilService);
+        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
+        $actual = $threadService->select(20, 'd2')->toArray()['data'][0];
+        $expected = Thread::with('user')->find(2)->toArray();
+        $this->assertEquals($expected, $actual);
+    }
+
     // 個々から下はUserServiceのテストのコピー
 
     public function test_異常_login_email不正()
