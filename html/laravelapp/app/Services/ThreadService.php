@@ -35,7 +35,9 @@ class ThreadService
         if ($q) {
             $builder = $builder->where('title', 'LIKE', '%' . $q . '%');
         }
-        return $builder->paginate($per_page);
+        return $builder
+            ->orderBy('id', 'desc')
+            ->paginate($per_page);
     }
 
     public function selectById($id)
