@@ -110,7 +110,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     query string:
       - q (任意)
-        - titleをあいまい検索するキーワード
+        - titleとip_addressを同時にあいまい検索するキーワード
     response:
       - モデルのリスト
     */
@@ -131,6 +131,8 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     query string:
       - thread_id
+      - q (任意)
+        - textとip_addressを同時にあいまい検索するキーワード(投稿者の情報は検索対象に含まれない)
     response:
       - モデルのリスト
     */
@@ -178,8 +180,6 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     response:
       - モデル
     */
-
-    // TODO: リプライ検索(スレッド指定ありなし両方)
 });
 
 Route::group(['middleware' => ['RequestFilter']], function () {
