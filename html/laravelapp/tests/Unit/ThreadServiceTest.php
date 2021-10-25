@@ -21,6 +21,13 @@ class ThreadServiceTest extends TestCase
         parent::setUp();
     }
 
+    protected function insertTestData()
+    {
+        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
+    }
+
     public function test_正常_create()
     {
         $threadService = new ThreadService(new UtilService);
@@ -58,9 +65,7 @@ class ThreadServiceTest extends TestCase
     public function test_正常_select()
     {
         $threadService = new ThreadService(new UtilService);
-        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => 'ip無し',]);
-        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => 'ip無し',]);
-        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => 'ip無し',]);
+        $this->insertTestData();
         $actual = $threadService->select(20)->toArray()['data'];
         $expected = array_reverse(Thread::with('user')->get()->toArray());
         $len = count($actual);
@@ -72,9 +77,7 @@ class ThreadServiceTest extends TestCase
     public function test_正常_select_検索ip()
     {
         $threadService = new ThreadService(new UtilService);
-        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
-        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
-        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
+        $this->insertTestData();
         $actual = $threadService->select(20, '5')->toArray()['data'];
         $expected = array_reverse(Thread::with('user')->where('ip_address', 'LIKE', "%5%")->get()->toArray());
         $len = count($actual);
@@ -86,9 +89,7 @@ class ThreadServiceTest extends TestCase
     public function test_正常_select_検索title()
     {
         $threadService = new ThreadService(new UtilService);
-        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
-        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
-        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
+        $this->insertTestData();
         $actual = $threadService->select(20, 'd2')->toArray()['data'][0];
         $expected = Thread::with('user')->find(2)->toArray();
         $this->assertEquals($expected, $actual);
