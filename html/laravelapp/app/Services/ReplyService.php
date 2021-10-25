@@ -41,16 +41,19 @@ class ReplyService
         return Reply::with('user')->find($reply->id);
     }
 
-    public function selectByThreadId($per_page, $thread_id)
+    public function selectByThreadId($per_page, $thread_id, $q = null)
     {
         if (!Thread::find($thread_id)) {
             /* thread_id が存在しない */
             $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
         }
-        return Reply::with('user')
-            ->where('thread_id', $thread_id)
-            ->orderBy('number', 'desc')
-            ->paginate($per_page);
+        $builder = Reply::with('user')->where('thread_id', $thread_id);
+        if ($q) {
+            $builder = $builder
+                ->where('text', 'LIKE', '%' . $q . '%')
+                ->orWhere('ip_address', 'LIKE', '%' . $q . '%');
+        }
+        return $builder->orderBy('id', 'desc')->paginate($per_page);
     }
 
     /**

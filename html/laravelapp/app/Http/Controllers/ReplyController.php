@@ -36,7 +36,8 @@ class ReplyController extends Controller
     {
         return $this->replyService->selectByThreadId(
             $request->per_page,
-            $request->thread_id
+            $request->thread_id,
+            $request->q
         );
     }
 
