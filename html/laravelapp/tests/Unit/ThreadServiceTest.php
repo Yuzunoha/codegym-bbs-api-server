@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Services\ThreadService;
 use App\Services\UserService;
 use App\Services\UtilService;
+use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -35,6 +36,23 @@ class ThreadServiceTest extends TestCase
 
         // モデルのあいまい比較
         $this->assertEquals($expected, $actual);
+    }
+
+    public function test_異常_create()
+    {
+        $threadService = new ThreadService(new UtilService);
+        $userId = 123;
+        try {
+            $threadService->create($userId, '作成失敗するかな');
+        } catch (Exception $e) {
+            $this->assertTrue($e instanceof HttpResponseException);
+            $expected = json_encode([
+                'status' => 400,
+                'message' => "user_id {$userId} は存在しません。",
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
+        }
     }
 
     // 個々から下はUserServiceのテストのコピー

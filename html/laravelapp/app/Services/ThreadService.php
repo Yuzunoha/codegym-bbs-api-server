@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Thread;
+use App\Models\User;
 use App\Services\UtilService;
 
 class ThreadService
@@ -16,6 +17,10 @@ class ThreadService
 
     public function create($loginUserId, $title)
     {
+        if (!User::find($loginUserId)) {
+            /* ユーザが存在しない */
+            $this->utilService->throwHttpResponseException("user_id {$loginUserId} は存在しません。");
+        }
         $thread = Thread::create([
             'user_id'    => $loginUserId,
             'title'      => $title,
