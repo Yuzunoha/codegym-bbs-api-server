@@ -2,16 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Models\Reply;
 use App\Models\Thread;
-use App\Models\User;
 use App\Services\ThreadService;
-use App\Services\UserService;
 use App\Services\UtilService;
 use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class ThreadServiceTest extends TestCase
