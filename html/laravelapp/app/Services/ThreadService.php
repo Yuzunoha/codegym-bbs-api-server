@@ -33,7 +33,9 @@ class ThreadService
     {
         $builder = Thread::with('user');
         if ($q) {
-            $builder = $builder->where('title', 'LIKE', '%' . $q . '%');
+            $builder = $builder
+                ->where('title', 'LIKE', '%' . $q . '%')
+                ->orWhere('ip_address', 'LIKE', '%' . $q . '%');
         }
         return $builder
             ->orderBy('id', 'desc')
