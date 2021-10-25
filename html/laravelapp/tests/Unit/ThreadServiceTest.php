@@ -55,6 +55,20 @@ class ThreadServiceTest extends TestCase
         }
     }
 
+    public function test_正常_select()
+    {
+        $threadService = new ThreadService(new UtilService);
+        Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => 'ip無し',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => 'ip無し',]);
+        Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => 'ip無し',]);
+        $actual = $threadService->select(20)->toArray()['data'];
+        $expected = array_reverse(Thread::with('user')->get()->toArray());
+        $len = count($actual);
+        for ($i = 0; $i < $len; $i++) {
+            $this->assertEquals($expected[$i], $actual[$i]);
+        }
+    }
+
     // 個々から下はUserServiceのテストのコピー
 
     public function test_異常_login_email不正()
