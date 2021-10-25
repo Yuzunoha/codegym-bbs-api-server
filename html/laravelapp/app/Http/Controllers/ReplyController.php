@@ -8,7 +8,6 @@ use App\Http\Requests\ReplyPatch;
 use App\Http\Requests\ReplySelectGet;
 use App\Models\Reply;
 use App\Models\Thread;
-use App\Models\User;
 use App\Services\ReplyService;
 use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;

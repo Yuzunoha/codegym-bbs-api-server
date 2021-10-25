@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Reply;
+use App\Models\Thread;
+use App\Models\User;
 use App\Services\UtilService;
 
 class ReplyService
@@ -15,10 +18,6 @@ class ReplyService
 
     public function create($thread_id, $user_id, $text)
     {
-        // $thread_id = $request->thread_id;
-        // $user_id   = Auth::id();
-        // $text      = $request->text;
-
         if (!Thread::find($thread_id)) {
             /* thread_id が存在しない */
             $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
