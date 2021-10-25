@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Reply;
 use App\Models\User;
 use App\Services\UtilService;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
