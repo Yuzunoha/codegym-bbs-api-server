@@ -94,4 +94,13 @@ class ThreadServiceTest extends TestCase
         $expected = Thread::with('user')->find(2)->toArray();
         $this->assertEquals($expected, $actual);
     }
+
+    public function test_正常_selectById()
+    {
+        $threadService = new ThreadService(new UtilService);
+        $this->insertTestData();
+        $expected = Thread::with('user')->find(2)->toArray();
+        $actual = $threadService->selectById(2)->toArray();
+        $this->assertEquals($expected, $actual);
+    }
 }
