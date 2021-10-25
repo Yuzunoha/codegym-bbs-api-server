@@ -40,4 +40,16 @@ class ReplyService
         ]);
         return Reply::with('user')->find($reply->id);
     }
+
+    public function selectByThreadId($per_page, $thread_id)
+    {
+        if (!Thread::find($thread_id)) {
+            /* thread_id が存在しない */
+            $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
+        }
+        return Reply::with('user')
+            ->where('thread_id', $thread_id)
+            ->orderBy('number', 'desc')
+            ->paginate($per_page);
+    }
 }

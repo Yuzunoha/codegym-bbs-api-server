@@ -36,15 +36,10 @@ class ReplyController extends Controller
 
     public function selectByThreadId(ReplySelectGet $request)
     {
-        $thread_id = $request->thread_id;
-        if (!Thread::find($thread_id)) {
-            /* thread_id が存在しない */
-            $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
-        }
-        return Reply::with('user')
-            ->where('thread_id', $thread_id)
-            ->orderBy('number', 'desc')
-            ->paginate($request->per_page);
+        return $this->replyService->selectByThreadId(
+            $request->per_page,
+            $request->thread_id
+        );
     }
 
     /**
