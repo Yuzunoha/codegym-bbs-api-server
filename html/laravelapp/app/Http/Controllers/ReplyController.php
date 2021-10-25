@@ -9,44 +9,30 @@ use App\Http\Requests\ReplySelectGet;
 use App\Models\Reply;
 use App\Models\Thread;
 use App\Models\User;
+use App\Services\ReplyService;
 use App\Services\UtilService;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
 {
     protected $utilService;
+    protected $replyService;
 
-    public function __construct(UtilService  $utilService)
-    {
-        $this->utilService = $utilService;
+    public function __construct(
+        UtilService  $utilService,
+        ReplyService $replyService
+    ) {
+        $this->utilService  = $utilService;
+        $this->replyService = $replyService;
     }
 
     public function create(ReplyCreatePost $request)
     {
-        $thread_id = $request->thread_id;
-        $user_id   = Auth::id();
-
-        if (!Thread::find($thread_id)) {
-            /* thread_id が存在しない */
-            $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
-        }
-        if (!User::find($user_id)) {
-            /* user_id が存在しない */
-            $this->utilService->throwHttpResponseException("user_id ${user_id} は存在しません。");
-        }
-
-        /* number を取得する */
-        $number = Reply::where('thread_id', $thread_id)->count() + 1;
-
-        /* 作成して返却する */
-        $reply = Reply::create([
-            'thread_id'  => $thread_id,
-            'number'     => $number,
-            'user_id'    => $user_id,
-            'text'       => $request->text,
-            'ip_address' => $this->utilService->getIp(),
-        ]);
-        return Reply::with('user')->find($reply->id);
+        return $this->replyService->create(
+            $request->thread_id,
+            Auth::id(),
+            $request->text
+        );
     }
 
     public function selectByThreadId(ReplySelectGet $request)
