@@ -2,6 +2,10 @@ define bash-c
 	docker-compose exec --user docker app bash -c
 endef
 
+define deploy-c
+	docker-compose.exe -f docker-compose-deploy.yml exec app bash -c
+endef
+
 up:
 	docker-compose up -d
 ps:
@@ -18,7 +22,12 @@ init:
 	$(bash-c) 'touch database/database.sqlite'
 	$(bash-c) 'chmod 777 -R storage bootstrap/cache database'
 	$(bash-c) 'php artisan migrate'
-	$(bash-c) 'php artisan db:seed --class=ApplicantsSeeder'
-	$(bash-c) 'php artisan db:seed --class=TimesSeeder'
+deploy:
+	docker-compose.exe -f docker-compose-deploy.yml build --no-cache
+	docker-compose.exe -f docker-compose-deploy.yml up -d
+	$(deploy-c) 'composer install'
+	$(deploy-c) 'touch database/database.sqlite'
+	$(deploy-c) 'chmod 777 -R storage bootstrap/cache database'
+	$(deploy-c) 'php artisan migrate'
 sqlite:
 	$(bash-c) 'sqlite3 database/database.sqlite'
