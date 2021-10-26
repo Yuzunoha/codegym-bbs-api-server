@@ -134,12 +134,24 @@ class ReplyServiceTest extends TestCase
         }
     }
 
-    public function test_selectByThreadId_正常系_テキストあいまい検索1件()
+    public function test_selectByThreadId_正常系_textあいまい検索1件()
     {
         $replyService = new ReplyService(new UtilService);
         $this->insertTestData();
         $actual = $replyService->selectByThreadId(20, 2, 'ナンバー2')->toArray()['data'][0];
         $expected = Reply::with('user')->find(2)->toArray();
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function test_selectByThreadId_正常系_ip_addressあいまい検索2件()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        $actual = $replyService->selectByThreadId(20, 2, '5')->toArray()['data'];
+        $expected = [
+            Reply::with('user')->find(3)->toArray(),
+            Reply::with('user')->find(2)->toArray(),
+        ];
         $this->assertEquals($expected, $actual);
     }
 }
