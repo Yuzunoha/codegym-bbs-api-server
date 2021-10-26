@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\User;
 use App\Services\ReplyService;
 use App\Services\UtilService;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -16,6 +17,35 @@ class ReplyServiceTest extends TestCase
         Thread::create(['user_id' => 1, 'title' => 'thread1', 'ip_address' => '123',]);
         Thread::create(['user_id' => 1, 'title' => 'thread2', 'ip_address' => '345',]);
         Thread::create(['user_id' => 1, 'title' => 'thread3', 'ip_address' => '567',]);
+
+        $thread_id = 2;
+        $number = 1;
+        $user_id = 1;
+        $text = 'テキストナンバー';
+        $ip_address = '123456789';
+        Reply::create([
+            'thread_id'  => $thread_id,
+            'number'     => $number,
+            'user_id'    => $user_id,
+            'text'       => $text . $number,
+            'ip_address' => $ip_address,
+        ]);
+        $number++;
+        Reply::create([
+            'thread_id'  => $thread_id,
+            'number'     => $number,
+            'user_id'    => $user_id,
+            'text'       => $text . $number,
+            'ip_address' => $ip_address,
+        ]);
+        $number++;
+        Reply::create([
+            'thread_id'  => $thread_id,
+            'number'     => $number,
+            'user_id'    => $user_id,
+            'text'       => $text . $number,
+            'ip_address' => $ip_address,
+        ]);
     }
 
     public function test_正常系_create()
@@ -23,7 +53,7 @@ class ReplyServiceTest extends TestCase
         $replyService = new ReplyService(new UtilService);
         $this->insertTestData();
         $actual = $replyService->create(2, 1, 'テキスト');
-        $expected = Reply::with('user')->find(1);
+        $expected = Reply::with('user')->find($actual->id);
         $this->assertEquals($expected, $actual);
     }
 
