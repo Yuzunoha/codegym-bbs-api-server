@@ -4,5 +4,8 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: make deploy
-      - run: make deploy-phpunit
+      - run: pwd
+      - run: ls
+      - run: ls -la
+      #- run: make deploy
+      #- run: make deploy-phpunit
