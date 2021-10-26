@@ -29,5 +29,7 @@ deploy:
 	$(deploy-c) 'touch database/database.sqlite'
 	$(deploy-c) 'chmod 777 -R storage bootstrap/cache database'
 	$(deploy-c) 'php artisan migrate'
+deploy-phpunit:
+	$(deploy-c) 'vendor/bin/phpunit'
 sqlite:
 	$(bash-c) 'sqlite3 database/database.sqlite'
