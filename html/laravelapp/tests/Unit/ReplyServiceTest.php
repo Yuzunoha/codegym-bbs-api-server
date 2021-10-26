@@ -41,7 +41,7 @@ class ReplyServiceTest extends TestCase
         Reply::create([
             'thread_id'  => $thread_id,
             'number'     => $number,
-            'user_id'    => $user_id,
+            'user_id'    => $user_id + 1,
             'text'       => $text . $number,
             'ip_address' => '567',
         ]);
@@ -153,5 +153,38 @@ class ReplyServiceTest extends TestCase
             Reply::with('user')->find(2)->toArray(),
         ];
         $this->assertEquals($expected, $actual);
+    }
+
+    public function test_deleteOwnReply_異常系_リプライが無い()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $reply_id = 100;
+        try {
+            $replyService->deleteOwnReply(1, $reply_id);
+        } catch (HttpResponseException $e) {
+            $expected = json_encode([
+                'status' => 400,
+                'message' => "reply_id {$reply_id} は存在しません。",
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
+        }
+    }
+
+    public function test_deleteOwnReply_異常系_リプライが自分のものでは無い()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        $reply_id = 3;
+        try {
+            $replyService->deleteOwnReply(1, $reply_id);
+        } catch (HttpResponseException $e) {
+            $expected = json_encode([
+                'status' => 400,
+                'message' => "他のユーザの投稿は編集できません。",
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
+        }
     }
 }
