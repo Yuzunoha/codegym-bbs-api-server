@@ -126,11 +126,13 @@ class ReplyServiceTest extends TestCase
     {
         $replyService = new ReplyService(new UtilService);
         $this->insertTestData();
-        ['email' => $email] = $this->getTestUserData();
-        $user = User::where('email', $email)->first();
         $thread_id = 2;
-        $ret = $replyService->selectByThreadId(20, $thread_id);
-        $data = $ret->toArray()['data'];
-        $this->p($data);
+        $actual = $replyService->selectByThreadId(20, $thread_id)->toArray()['data'];
+        $expected = array_reverse(Reply::with('user')->get()->toArray());
+        $len = count($expected);
+        $this->assertEquals($len, count($actual));
+        for ($i = 0; $i < $len; $i++) {
+            $this->assertEquals($expected[$i], $actual[$i]);
+        }
     }
 }
