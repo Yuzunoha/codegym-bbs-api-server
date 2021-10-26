@@ -29,6 +29,10 @@ deploy:
 	$(deploy-c) 'touch database/database.sqlite'
 	$(deploy-c) 'chmod 777 -R storage bootstrap/cache database'
 	$(deploy-c) 'php artisan migrate'
+deploy-up:
+	docker-compose -f docker-compose-deploy.yml up -d
+deploy-down:
+	docker-compose -f docker-compose-deploy.yml down
 deploy-phpunit:
 	$(deploy-c) 'vendor/bin/phpunit'
 sqlite:
