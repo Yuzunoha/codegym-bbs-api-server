@@ -180,8 +180,7 @@ class ReplyServiceTest extends TestCase
             $replyService->deleteOwnReply(1, $reply_id);
         } catch (HttpResponseException $e) {
             $expected = json_encode([
-                // 'status' => 404,
-                'status' => 404, // TODO: テスト失敗を確認する実験
+                'status' => 400,
                 'message' => "他のユーザの投稿は編集できません。",
             ]);
             $actual = json_encode($e->getResponse()->original);
