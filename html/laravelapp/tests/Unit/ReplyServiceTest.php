@@ -201,4 +201,13 @@ class ReplyServiceTest extends TestCase
             [Reply::find(1)->toArray(), Reply::find(3)->toArray(),]
         );
     }
+
+    public function test_updateOwnReply_正常更新()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        $actual = $replyService->updateOwnReply(1, 2, '編集しました');
+        $expected = Reply::with('user')->find(2);
+        $this->assertEquals($expected, $actual);
+    }
 }
