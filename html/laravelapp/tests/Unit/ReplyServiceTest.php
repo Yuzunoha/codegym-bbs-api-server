@@ -90,4 +90,47 @@ class ReplyServiceTest extends TestCase
             $this->assertEquals($expected, $actual);
         }
     }
+
+    public function selectByThreadId($per_page, $thread_id, $q = null)
+    {
+        if (!Thread::find($thread_id)) {
+            /* thread_id が存在しない */
+            $this->utilService->throwHttpResponseException("thread_id ${thread_id} は存在しません。");
+        }
+        $builder = Reply::with('user')->where('thread_id', $thread_id);
+        if ($q) {
+            $builder = $builder
+                ->where('text', 'LIKE', '%' . $q . '%')
+                ->orWhere('ip_address', 'LIKE', '%' . $q . '%');
+        }
+        return $builder->orderBy('id', 'desc')->paginate($per_page);
+    }
+
+    public function test_selectByThreadId_異常系_存在しないスレッド()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $thread_id = 1;
+        try {
+            $replyService->selectByThreadId(20, $thread_id);
+        } catch (HttpResponseException $e) {
+            $expected = json_encode([
+                'status' => 400,
+                'message' => "thread_id {$thread_id} は存在しません。",
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
+        }
+    }
+
+    public function test_selectByThreadId_正常系()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        ['email' => $email] = $this->getTestUserData();
+        $user = User::where('email', $email)->first();
+        $thread_id = 2;
+        $ret = $replyService->selectByThreadId(20, $thread_id);
+        $data = $ret->toArray()['data'];
+        $this->p($data);
+    }
 }
