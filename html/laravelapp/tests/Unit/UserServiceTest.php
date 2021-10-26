@@ -165,11 +165,17 @@ class UserServiceTest extends TestCase
             'email' => 'b@mymail.net',
             'password' => 'pass'
         ]);
-        $this->assertEquals(3, count($userService->select(20)->toArray()['data']));
+        User::create([
+            'name' => 'ccccacccc',
+            'email' => 'c@mymail.net',
+            'password' => 'pass'
+        ]);
+        $this->assertEquals(4, count($userService->select(20)->toArray()['data']));
         $this->assertEquals('B', $userService->select(20, 'B')->toArray()['data'][0]['name']);
-        $this->assertEquals('a', $userService->select(20, 'A@gmail')->toArray()['data'][0]['name']);
-        $this->assertEquals(1, count($userService->select(20, 'mymail')->toArray()['data']));
-        $this->assertEquals(3, count($userService->select(20, 'mail')->toArray()['data']));
+        $this->assertEquals(0, count($userService->select(20, 'mymail')->toArray()['data'])); // emailは検索しない
+        $expected = [User::find(4)->toArray(), User::find(2)->toArray(),];
+        $actual = $userService->select(20, 'a')->toArray()['data'];
+        $this->assertEquals($expected, $actual);
     }
 
     public function test_正常_selectById()

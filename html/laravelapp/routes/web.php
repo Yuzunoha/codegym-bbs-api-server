@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
     header: トークン
     body:
       - q (任意)
-        - nameとemailを同時にあいまい検索するキーワード
+        - nameをあいまい検索するキーワード(emailは検索対象に含まれない)
     response:
       - モデルのリスト
     */
