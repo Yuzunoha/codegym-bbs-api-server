@@ -187,4 +187,18 @@ class ReplyServiceTest extends TestCase
             $this->assertEquals($expected, $actual);
         }
     }
+
+    public function test_deleteOwnReply_正常系()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        $reply_id = 2;
+        $actual = json_encode($replyService->deleteOwnReply(1, $reply_id));
+        $expected = json_encode(['message' => "reply_id {$reply_id} のリプライを削除しました。"]);
+        $this->assertEquals($expected, $actual);
+        $this->assertEquals(
+            Reply::all()->toArray(),
+            [Reply::find(1)->toArray(), Reply::find(3)->toArray(),]
+        );
+    }
 }
