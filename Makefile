@@ -3,7 +3,7 @@ define bash-c
 endef
 
 define deploy-c
-	docker-compose -f docker-compose-deploy.yml exec app bash -c
+	docker-compose -f docker-compose-deploy.yml exec -t app bash -c
 endef
 
 up:
