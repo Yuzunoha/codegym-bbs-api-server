@@ -3,7 +3,7 @@ define bash-c
 endef
 
 define deploy-c
-	docker-compose.exe -f docker-compose-deploy.yml exec app bash -c
+	docker-compose -f docker-compose-deploy.yml exec app bash -c
 endef
 
 up:
@@ -23,8 +23,8 @@ init:
 	$(bash-c) 'chmod 777 -R storage bootstrap/cache database'
 	$(bash-c) 'php artisan migrate'
 deploy:
-	docker-compose.exe -f docker-compose-deploy.yml build --no-cache
-	docker-compose.exe -f docker-compose-deploy.yml up -d
+	docker-compose -f docker-compose-deploy.yml build --no-cache
+	docker-compose -f docker-compose-deploy.yml up -d
 	$(deploy-c) 'composer install'
 	$(deploy-c) 'touch database/database.sqlite'
 	$(deploy-c) 'chmod 777 -R storage bootstrap/cache database'
