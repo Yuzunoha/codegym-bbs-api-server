@@ -210,4 +210,13 @@ class ReplyServiceTest extends TestCase
         $expected = Reply::with('user')->find(2);
         $this->assertEquals($expected, $actual);
     }
+
+    public function test_selectById_正常()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        $actual = $replyService->selectById(2);
+        $expected = Reply::with('user')->find(2);
+        $this->assertEquals($expected, $actual);
+    }
 }
