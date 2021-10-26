@@ -1,0 +1,16 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: DockerfileDeploy
+    volumes:
+      - ./html:/var/www/html
+    environment:
+      VIRTUAL_HOST: bbs.yuzunoha.net
+      LETSENCRYPT_HOST: bbs.yuzunoha.net
+      LETSENCRYPT_EMAIL: studysteadystandby@gmail.com
+networks:
+  default:
+    external:
+      name: nginx-proxy
