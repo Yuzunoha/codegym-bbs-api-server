@@ -22,13 +22,12 @@ class ReplyServiceTest extends TestCase
         $number = 1;
         $user_id = 1;
         $text = 'テキストナンバー';
-        $ip_address = '123456789';
         Reply::create([
             'thread_id'  => $thread_id,
             'number'     => $number,
             'user_id'    => $user_id,
             'text'       => $text . $number,
-            'ip_address' => $ip_address,
+            'ip_address' => '123',
         ]);
         $number++;
         Reply::create([
@@ -36,7 +35,7 @@ class ReplyServiceTest extends TestCase
             'number'     => $number,
             'user_id'    => $user_id,
             'text'       => $text . $number,
-            'ip_address' => $ip_address,
+            'ip_address' => '345',
         ]);
         $number++;
         Reply::create([
@@ -44,7 +43,7 @@ class ReplyServiceTest extends TestCase
             'number'     => $number,
             'user_id'    => $user_id,
             'text'       => $text . $number,
-            'ip_address' => $ip_address,
+            'ip_address' => '567',
         ]);
     }
 
@@ -126,13 +125,21 @@ class ReplyServiceTest extends TestCase
     {
         $replyService = new ReplyService(new UtilService);
         $this->insertTestData();
-        $thread_id = 2;
-        $actual = $replyService->selectByThreadId(20, $thread_id)->toArray()['data'];
+        $actual = $replyService->selectByThreadId(20, 2)->toArray()['data'];
         $expected = array_reverse(Reply::with('user')->get()->toArray());
         $len = count($expected);
         $this->assertEquals($len, count($actual));
         for ($i = 0; $i < $len; $i++) {
             $this->assertEquals($expected[$i], $actual[$i]);
         }
+    }
+
+    public function test_selectByThreadId_正常系_テキストあいまい検索1件()
+    {
+        $replyService = new ReplyService(new UtilService);
+        $this->insertTestData();
+        $actual = $replyService->selectByThreadId(20, 2, 'ナンバー2')->toArray()['data'][0];
+        $expected = Reply::with('user')->find(2)->toArray();
+        $this->assertEquals($expected, $actual);
     }
 }
