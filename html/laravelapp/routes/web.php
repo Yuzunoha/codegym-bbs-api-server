@@ -169,12 +169,13 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - メッセージ
     */
 
-    Route::patch('/replies', 'ReplyController@updateOwnReply'); // リプライ編集
+    Route::patch('/replies/{id}', 'ReplyController@updateOwnReply'); // リプライ編集
     /*
     概要: リプライを編集する。他人のリプライは編集できない
     header: トークン
+    url parameter:
+      - id
     body:
-      - thread_id
       - text
         - 最大1024文字
     response:

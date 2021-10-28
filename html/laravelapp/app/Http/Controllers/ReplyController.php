@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReplyCreatePost;
-use App\Http\Requests\ReplyDelete;
 use App\Http\Requests\ReplyPatch;
 use App\Http\Requests\ReplySelectGet;
 use App\Services\ReplyService;
@@ -49,11 +48,11 @@ class ReplyController extends Controller
         );
     }
 
-    public function updateOwnReply(ReplyPatch $request)
+    public function updateOwnReply($id, ReplyPatch $request)
     {
         return $this->replyService->updateOwnReply(
             Auth::id(),
-            $request->id,
+            $id,
             $request->text
         );
     }
