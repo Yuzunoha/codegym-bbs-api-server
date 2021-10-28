@@ -98,4 +98,20 @@ class ThreadServiceTest extends TestCase
         $actual = $threadService->selectById(2)->toArray();
         $this->assertEquals($expected, $actual);
     }
+
+    public function test_異常_updateOwnThread_スレッドが無い()
+    {
+        $threadService = new ThreadService(new UtilService);
+        $thread_id = 123;
+        try {
+            $threadService->updateOwnThread(1, $thread_id, 'タイトル');
+        } catch (HttpResponseException $e) {
+            $expected = json_encode([
+                'status' => 400,
+                'message' => "thread_id {$thread_id} は存在しません。",
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
+        }
+    }
 }
