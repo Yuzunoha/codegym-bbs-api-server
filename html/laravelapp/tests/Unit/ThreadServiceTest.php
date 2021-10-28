@@ -130,4 +130,16 @@ class ThreadServiceTest extends TestCase
             $this->assertEquals($expected, $actual);
         }
     }
+
+    public function test_正常_updateOwnThread()
+    {
+        $threadService = new ThreadService(new UtilService);
+        $this->insertTestData();
+        $title = '編集後のタイトル!?';
+        $thread_id = 2;
+        $actual = $threadService->updateOwnThread(1, $thread_id, $title)->toArray();
+        $expected = Thread::with('user')->find($thread_id)->toArray();
+        $this->assertEquals($title, $actual['title']);
+        $this->assertEquals($expected, $actual);
+    }
 }
