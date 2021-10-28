@@ -41,11 +41,11 @@ class ReplyController extends Controller
         );
     }
 
-    public function deleteOwnReply(ReplyDelete $request)
+    public function deleteOwnReply($id)
     {
         return $this->replyService->deleteOwnReply(
             Auth::id(),
-            $request->id
+            $id
         );
     }
 

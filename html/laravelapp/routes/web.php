@@ -159,12 +159,12 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデル
     */
 
-    Route::delete('/replies', 'ReplyController@deleteOwnReply'); // リプライ削除
+    Route::delete('/replies/{id}', 'ReplyController@deleteOwnReply'); // リプライ削除
     /*
     概要: リプライを削除する。他人のリプライは編集できない
     header: トークン
-    body:
-      - thread_id
+    url parameter:
+      - id
     response:
       - メッセージ
     */
