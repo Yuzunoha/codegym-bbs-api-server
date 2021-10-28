@@ -46,4 +46,21 @@ class ThreadService
     {
         return Thread::with('user')->find($id);
     }
+
+    public function updateOwnThread($user_id, $thread_id, $title)
+    {
+        $thread = Thread::find($thread_id);
+        if (!$thread) {
+            /* thread_id が存在しない */
+            $this->utilService->throwHttpResponseException("thread_id {$thread_id} は存在しません。");
+        }
+        if (intval($user_id) !== intval($thread->user_id)) {
+            /* 自分のスレッドではない */
+            $this->utilService->throwHttpResponseException("他のユーザのスレッドは編集できません。");
+        }
+        $thread->update([
+            'title' => $title,
+        ]);
+        return Thread::with('user')->find($thread_id);
+    }
 }

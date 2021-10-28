@@ -125,6 +125,19 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
       - モデル
     */
 
+    Route::patch('/threads/{id}', 'ThreadController@updateOwnThread'); // スレッド取得(単体)
+    /*
+    概要: 自分のthreadを編集する。threadの削除はできない。
+    header: トークン
+    url parameter:
+      - id
+    body:
+      - title
+        - 最大64文字
+    response:
+      - モデル
+    */
+
     Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
     /*
     概要: スレッドid指定でリプライ一覧を降順で取得する
@@ -161,7 +174,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
 
     Route::delete('/replies/{id}', 'ReplyController@deleteOwnReply'); // リプライ削除
     /*
-    概要: リプライを削除する。他人のリプライは編集できない
+    概要: 自分のリプライを削除する。
     header: トークン
     url parameter:
       - id
@@ -171,7 +184,7 @@ Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
 
     Route::patch('/replies/{id}', 'ReplyController@updateOwnReply'); // リプライ編集
     /*
-    概要: リプライを編集する。他人のリプライは編集できない
+    概要: 自分のリプライを編集する。
     header: トークン
     url parameter:
       - id

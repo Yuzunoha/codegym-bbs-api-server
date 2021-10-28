@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadCreatePost;
+use App\Http\Requests\ThreadEditPatch;
 use App\Services\ThreadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,15 @@ class ThreadController extends Controller
     {
         return $this->threadService->selectById(
             $id
+        );
+    }
+
+    public function updateOwnThread($id, ThreadEditPatch $request)
+    {
+        return $this->threadService->updateOwnThread(
+            Auth::id(),
+            $id,
+            $request->title
         );
     }
 }
