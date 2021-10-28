@@ -14,186 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', 'UserController@login')->name('login'); // ログイン(トークン発行)
-/*
-method: post
-body:
-  - email
-  - password
-response:
-  - トークン
-*/
-
-Route::post('/register', 'UserController@register'); // ユーザ登録
-/*
-method: post
-body:
-  - name
-    - 最大16文字
-  - email
-  - password
-response:
-  - モデル
-*/
-
+Route::post('/login', 'UserController@login')->name('login');
+Route::post('/register', 'UserController@register');
 Route::group(['middleware' => ['auth:sanctum', 'RequestFilter']], function () {
-    /*
-    以下全てgetメソッド
-    users      ユーザ一覧or検索(keyword)
-    users/3    ユーザ一件
-    threads    スレッド一覧or検索(keyword)
-    threads/3  スレッド一件
-    replies    リプライ検索(thread_id or/and keyword)
-    replies/3  リプライ一件
-    */
-
-    Route::post('/logout', 'UserController@logout'); // ログアウト
-    /*
-    概要: ログインユーザのトークンをサーバから削除する
-    header: トークン
-    response:
-      - メッセージ
-    */
-
-    Route::get('/users/{id}', 'UserController@selectById'); // ユーザ1件取得
-    /*
-    概要: id指定でユーザを取得する
-    header: トークン
-    url parameter:
-      - id
-    response:
-      - モデル
-    */
-
-    Route::get('/users', 'UserController@select'); // ユーザ取得
-    /*
-    header: トークン
-    body:
-      - q (任意)
-        - nameをあいまい検索するキーワード(emailは検索対象に含まれない)
-    response:
-      - モデルのリスト
-    */
-
-    Route::delete('/users', 'UserController@deleteLoginUser'); // ユーザ削除
-    /*
-    概要: ログインユーザを削除する
-    header: トークン
-    response:
-      - メッセージ
-    */
-
-    Route::patch('/users', 'UserController@updateUser'); // ユーザ編集ができる事
-    /*
-    概要: ログインユーザを編集する
-    header: トークン
-    body:
-      - name
-        - 最大16文字
-    response:
-      - モデル
-    */
-
-    Route::post('/threads', 'ThreadController@create'); // スレッド作成
-    /*
-    概要: スレッドを作成する
-    header: トークン
-    body:
-      - title
-        - 最大64文字
-    response:
-      - モデル
-    */
-
-    Route::get('/threads', 'ThreadController@select'); // スレッド取得(一覧or検索)
-    /*
-    header: トークン
-    query string:
-      - q (任意)
-        - titleとip_addressを同時にあいまい検索するキーワード
-    response:
-      - モデルのリスト
-    */
-
-    Route::get('/threads/{id}', 'ThreadController@selectById'); // スレッド取得(単体)
-    /*
-    概要: id指定でスレッドを取得する。レスは含まない
-    header: トークン
-    url parameter:
-      - id
-    response:
-      - モデル
-    */
-
-    Route::patch('/threads/{id}', 'ThreadController@updateOwnThread'); // スレッド取得(単体)
-    /*
-    概要: 自分のthreadを編集する。threadの削除はできない。
-    header: トークン
-    url parameter:
-      - id
-    body:
-      - title
-        - 最大64文字
-    response:
-      - モデル
-    */
-
-    Route::get('/replies', 'ReplyController@selectByThreadId'); // リプライ取得。スレッド指定
-    /*
-    概要: スレッドid指定でリプライ一覧を降順で取得する
-    header: トークン
-    query string:
-      - thread_id
-      - q (任意)
-        - textとip_addressを同時にあいまい検索するキーワード(投稿者の情報は検索対象に含まれない)
-    response:
-      - モデルのリスト
-    */
-
-    Route::get('/replies/{id}', 'ReplyController@selectById'); // リプライ取得(単体)
-    /*
-    概要: id指定でリプライを取得する
-    header: トークン
-    url parameter:
-      - id
-    response:
-      - モデル
-    */
-
-    Route::post('/replies', 'ReplyController@create'); // リプライ作成
-    /*
-    概要: リプライを作成する
-    header: トークン
-    body:
-      - thread_id
-      - text
-        - 最大1024文字
-    response:
-      - モデル
-    */
-
-    Route::delete('/replies/{id}', 'ReplyController@deleteOwnReply'); // リプライ削除
-    /*
-    概要: 自分のリプライを削除する。
-    header: トークン
-    url parameter:
-      - id
-    response:
-      - メッセージ
-    */
-
-    Route::patch('/replies/{id}', 'ReplyController@updateOwnReply'); // リプライ編集
-    /*
-    概要: 自分のリプライを編集する。
-    header: トークン
-    url parameter:
-      - id
-    body:
-      - text
-        - 最大1024文字
-    response:
-      - モデル
-    */
+    Route::post('/logout', 'UserController@logout');
+    Route::get('/users/{id}', 'UserController@selectById');
+    Route::get('/users', 'UserController@select');
+    Route::delete('/users', 'UserController@deleteLoginUser');
+    Route::patch('/users', 'UserController@updateUser');
+    Route::post('/threads', 'ThreadController@create');
+    Route::get('/threads', 'ThreadController@select');
+    Route::get('/threads/{id}', 'ThreadController@selectById');
+    Route::patch('/threads/{id}', 'ThreadController@updateOwnThread');
+    Route::get('/replies', 'ReplyController@selectByThreadId');
+    Route::get('/replies/{id}', 'ReplyController@selectById');
+    Route::post('/replies', 'ReplyController@create');
+    Route::delete('/replies/{id}', 'ReplyController@deleteOwnReply');
+    Route::patch('/replies/{id}', 'ReplyController@updateOwnReply');
 });
 
 Route::group(['middleware' => ['RequestFilter']], function () {
