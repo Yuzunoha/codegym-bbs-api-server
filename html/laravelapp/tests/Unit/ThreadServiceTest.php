@@ -114,4 +114,20 @@ class ThreadServiceTest extends TestCase
             $this->assertEquals($expected, $actual);
         }
     }
+
+    public function test_異常_updateOwnThread_自分のスレッドではない()
+    {
+        $threadService = new ThreadService(new UtilService);
+        $this->insertTestData();
+        try {
+            $threadService->updateOwnThread(2, 2, 'タイトル');
+        } catch (HttpResponseException $e) {
+            $expected = json_encode([
+                'status' => 400,
+                'message' => "他のユーザのスレッドは編集できません。",
+            ]);
+            $actual = json_encode($e->getResponse()->original);
+            $this->assertEquals($expected, $actual);
+        }
+    }
 }
