@@ -78,3 +78,19 @@ threadsPostSubmit.onclick = () => {
     .then((res) => res.json())
     .then(p);
 };
+
+repliesGetSubmit.onclick = () => {
+  const params = {
+    thread_id: repliesGetThreadId.value,
+  };
+  const queryParams = new URLSearchParams(params);
+  fetch(`${host}/replies?${queryParams}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+    .then((res) => res.json())
+    .then(p);
+};
