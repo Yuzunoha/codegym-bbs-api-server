@@ -33,3 +33,15 @@ usersIdGetSubmit.onclick = () => {
     .then((res) => res.json())
     .then(p);
 };
+
+usersGetSubmit.onclick = () => {
+  fetch(`${host}/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+    .then((res) => res.json())
+    .then(p);
+};
