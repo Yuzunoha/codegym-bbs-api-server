@@ -110,3 +110,18 @@ repliesPostSubmit.onclick = () => {
     .then((res) => res.json())
     .then(p);
 };
+
+repliesPatchSubmit.onclick = () => {
+  fetch(`${host}/replies/${repliesPatchId.value}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      text: repliesPatchText.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then(p);
+};
