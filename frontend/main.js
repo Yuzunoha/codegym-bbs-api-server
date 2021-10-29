@@ -21,3 +21,15 @@ loginSubmit.onclick = () => {
       p(localStorage.getItem('token'));
     });
 };
+
+usersIdGetSubmit.onclick = () => {
+  fetch(`${host}/users/${usersIdGetId.value}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+    .then((res) => res.json())
+    .then(p);
+};
