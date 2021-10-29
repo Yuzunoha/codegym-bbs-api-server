@@ -63,3 +63,18 @@ threadsGetSubmit.onclick = () => {
     .then((res) => res.json())
     .then(p);
 };
+
+threadsPostSubmit.onclick = () => {
+  fetch(`${host}/threads`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      title: threadsPostTitle.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then(p);
+};
