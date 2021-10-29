@@ -15,5 +15,9 @@ loginSubmit.onclick = () => {
     }),
   })
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((data) => {
+      console.log(data);
+      localStorage.setItem('token', data.token);
+      p(localStorage.getItem('token'));
+    });
 };
