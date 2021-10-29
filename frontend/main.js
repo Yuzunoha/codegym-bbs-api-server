@@ -22,6 +22,22 @@ loginSubmit.onclick = () => {
     });
 };
 
+registerSubmit.onclick = () => {
+  fetch(`${host}/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: registerName.value,
+      email: registerEmail.value,
+      password: registerPassword.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then(p);
+};
+
 usersIdGetSubmit.onclick = () => {
   fetch(`${host}/users/${usersIdGetId.value}`, {
     method: 'GET',
