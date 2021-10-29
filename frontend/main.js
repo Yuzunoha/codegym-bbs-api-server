@@ -1,7 +1,7 @@
 'use strict';
 
 const p = console.log;
-const host = 'http://localhost';
+const host = 'https://bbs.yuzunoha.net';
 
 loginSubmit.onclick = () => {
   fetch(`${host}/login`, {
