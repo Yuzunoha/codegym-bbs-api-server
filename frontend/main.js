@@ -45,3 +45,21 @@ usersGetSubmit.onclick = () => {
     .then((res) => res.json())
     .then(p);
 };
+
+threadsGetSubmit.onclick = () => {
+  const params = {
+    per_page: threadsGetPerPage.value,
+    page: threadsGetPage.value,
+    q: threadsGetQ.value,
+  };
+  const queryParams = new URLSearchParams(params);
+  fetch(`${host}/threads?${queryParams}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+    .then((res) => res.json())
+    .then(p);
+};
