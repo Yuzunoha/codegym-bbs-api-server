@@ -94,3 +94,19 @@ repliesGetSubmit.onclick = () => {
     .then((res) => res.json())
     .then(p);
 };
+
+repliesPostSubmit.onclick = () => {
+  fetch(`${host}/replies`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      thread_id: repliesPostThreadId.value,
+      text: repliesPostText.value,
+    }),
+  })
+    .then((res) => res.json())
+    .then(p);
+};
