@@ -1,3 +1,7 @@
 'use strict';
 
-alert('main.jsです');
+const p = console.log;
+
+loginSubmit.onclick = () => {
+  p(loginEmail.value);
+};
