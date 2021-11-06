@@ -19,16 +19,16 @@ class UserServiceTest extends TestCase
         parent::setUp();
     }
 
-    public function test_異常_login_email不正()
+    public function test_異常_login_name不正()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email, 'password' => $password] = $this->getTestUserData();
+        ['name' => $name, 'password' => $password] = $this->getTestUserData();
         try {
-            $userService->login($email . 'a', $password);
+            $userService->login($name . 'a', $password);
         } catch (HttpResponseException $e) {
             $expected = json_encode([
                 'status' => 400,
-                'message' => 'emailとpasswordの組み合わせが不正です。',
+                'message' => 'nameとpasswordの組み合わせが不正です。',
             ]);
             $actual = json_encode($e->getResponse()->original);
             $this->assertEquals($expected, $actual);
@@ -38,13 +38,13 @@ class UserServiceTest extends TestCase
     public function test_異常_login_password不正()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email, 'password' => $password] = $this->getTestUserData();
+        ['name' => $name, 'password' => $password] = $this->getTestUserData();
         try {
-            $userService->login($email, $password . 'a');
+            $userService->login($name, $password . 'a');
         } catch (HttpResponseException $e) {
             $expected = json_encode([
                 'status' => 400,
-                'message' => 'emailとpasswordの組み合わせが不正です。',
+                'message' => 'nameとpasswordの組み合わせが不正です。',
             ]);
             $actual = json_encode($e->getResponse()->original);
             $this->assertEquals($expected, $actual);
@@ -54,8 +54,8 @@ class UserServiceTest extends TestCase
     public function test_正常_login()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email, 'password' => $password] = $this->getTestUserData();
-        $token = $userService->login($email, $password)['token'];
+        ['name' => $name, 'password' => $password] = $this->getTestUserData();
+        $token = $userService->login($name, $password)['token'];
         $response = $this->get('/users', ['Authorization' => "Bearer {$token}"]);
         $response->assertOk();
     }
@@ -63,8 +63,8 @@ class UserServiceTest extends TestCase
     public function test_正常_login_自分の古いtokenを失効させる()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email, 'password' => $password] = $this->getTestUserData();
-        $userService->login($email, $password);
+        ['name' => $name, 'password' => $password] = $this->getTestUserData();
+        $userService->login($name, $password);
         $response = $this->get('/users', ['Authorization' => "Bearer {$this->token}"]);
         $response->assertStatus(401);
     }
@@ -72,23 +72,23 @@ class UserServiceTest extends TestCase
     public function test_正常_register()
     {
         $userService = new UserService(new UtilService);
-        $user = $userService->register($name = 'a', $email = 'a@a.com', $password = Str::random());
+        $user = $userService->register($name = 'a', $bio = 'aの自己紹介', $password = Str::random());
         $this->assertEquals($name, $user->name);
-        $this->assertEquals($email, $user->email);
-        $response = $this->post('/login', ['email' => $email, 'password' => $password]);
+        $this->assertEquals($bio, $user->bio);
+        $response = $this->post('/login', ['name' => $name, 'password' => $password]);
         $response->assertOk();
     }
 
-    public function test_異常_email重複()
+    public function test_異常_name重複()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email] = $this->getTestUserData();
+        ['name' => $name] = $this->getTestUserData();
         try {
-            $userService->register('a', $email, Str::random());
+            $userService->register($name, '適当な自己紹介', Str::random());
         } catch (HttpResponseException $e) {
             $expected = json_encode([
                 'status' => 400,
-                'message' => "email {$email} は既に登録されています。",
+                'message' => "name {$name} は既に登録されています。",
             ]);
             $actual = json_encode($e->getResponse()->original);
             $this->assertEquals($expected, $actual);
@@ -98,8 +98,8 @@ class UserServiceTest extends TestCase
     public function test_正常_logout()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email] = $this->getTestUserData();
-        $loginUser = User::where('email', $email)->first();
+        ['name' => $name] = $this->getTestUserData();
+        $loginUser = User::where('name', $name)->first();
         $userService->logout($loginUser);
         // 認証に失敗すること
         $this->get('/users', $this->getAuthorizationHeader())->assertStatus(401);
@@ -108,8 +108,8 @@ class UserServiceTest extends TestCase
     public function test_正常_delete()
     {
         $userService = new UserService(new UtilService);
-        ['email' => $email] = $this->getTestUserData();
-        $loginUser = User::where('email', $email)->first();
+        ['name' => $name] = $this->getTestUserData();
+        $loginUser = User::where('name', $name)->first();
         $thread = Thread::create([
             'user_id'    => $loginUser->id,
             'title'      => 'ダミータイトル',
@@ -145,11 +145,11 @@ class UserServiceTest extends TestCase
     public function test_正常_updateUser()
     {
         $userService = new UserService(new UtilService);
-        ['name' => $name, 'email' => $email] = $this->getTestUserData();
-        $loginUser = User::where('email', $email)->first();
-        $nameUpdated = $name . '編集しました';
-        $userService->updateUser($loginUser, $nameUpdated);
-        $this->assertEquals($nameUpdated, User::find($loginUser->id)->name);
+        ['name' => $name, 'bio' => $bio] = $this->getTestUserData();
+        $loginUser = User::where('name', $name)->first();
+        $bioUpdated = $bio . '編集しました';
+        $userService->updateUser($loginUser, $bioUpdated);
+        $this->assertEquals($bioUpdated, User::find($loginUser->id)->bio);
     }
 
     public function test_正常_select_name()
@@ -157,23 +157,23 @@ class UserServiceTest extends TestCase
         $userService = new UserService(new UtilService);
         User::create([
             'name' => 'a',
-            'email' => 'A@gmail.com',
+            'bio' => 'A自己紹介',
             'password' => 'pass'
         ]);
         User::create([
             'name' => 'B',
-            'email' => 'b@mymail.net',
+            'bio' => 'b自己紹介',
             'password' => 'pass'
         ]);
         User::create([
             'name' => 'ccccacccc',
-            'email' => 'c@mymail.net',
+            'bio' => 'c自己紹介a',
             'password' => 'pass'
         ]);
         $this->assertEquals(4, count($userService->select(20)->toArray()['data']));
         $this->assertEquals('B', $userService->select(20, 'B')->toArray()['data'][0]['name']);
-        $this->assertEquals(0, count($userService->select(20, 'mymail')->toArray()['data'])); // emailは検索しない
-        $expected = [User::find(4)->toArray(), User::find(2)->toArray(),];
+        $this->assertEquals(0, count($userService->select(20, 'pass')->toArray()['data'])); // passwordは検索しない
+        $expected = [User::find(4)->toArray(), User::find(2)->toArray(),]; // nameとbioをそれぞれ検索する
         $actual = $userService->select(20, 'a')->toArray()['data'];
         $this->assertEquals($expected, $actual);
     }
@@ -183,12 +183,12 @@ class UserServiceTest extends TestCase
         $userService = new UserService(new UtilService);
         User::create([
             'name' => 'a',
-            'email' => 'A@gmail.com',
+            'bio' => 'A@gmail.com自己紹介',
             'password' => 'pass'
         ]);
         $user = User::create([
             'name' => 'B',
-            'email' => 'b@mymail.net',
+            'bio' => 'b@mymail.net自己紹介',
             'password' => 'pass'
         ]);
         $ret = $userService->selectById($user->id);
