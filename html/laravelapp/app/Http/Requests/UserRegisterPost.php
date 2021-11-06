@@ -8,7 +8,7 @@ class UserRegisterPost extends FormRequestBase
     {
         return [
             'name'     => 'required|string|max:' . config('const')['NAME_MAX_LENGTH'],
-            'email'    => 'required|email',
+            'bio'      => 'required|string|max:' . config('const')['BIO_MAX_LENGTH'],
             'password' => 'required',
         ];
     }

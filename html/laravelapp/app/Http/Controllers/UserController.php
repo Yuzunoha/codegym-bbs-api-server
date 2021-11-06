@@ -22,7 +22,7 @@ class UserController extends Controller
     public function login(UserLoginPost $request)
     {
         return $this->userService->login(
-            $request->email,
+            $request->name,
             $request->password
         );
     }
@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         return $this->userService->register(
             $request->name,
-            $request->email,
+            $request->bio,
             $request->password
         );
     }
@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         return $this->userService->updateUser(
             Auth::user(),
-            $request->name
+            $request->bio
         );
     }
 

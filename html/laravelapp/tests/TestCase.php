@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             'name'     => 'テスト太郎',
-            'email'    => 'test_taro@gmail.com',
+            'bio'      => 'テスト太郎の自己紹介♪',
             'password' => 'test_taro_123',
         ];
     }

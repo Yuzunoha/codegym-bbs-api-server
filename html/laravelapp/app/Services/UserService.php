@@ -16,17 +16,17 @@ class UserService
         $this->utilService = $utilService;
     }
 
-    public function login($email, $password)
+    public function login($name, $password)
     {
-        $fnThrow = fn () => $this->utilService->throwHttpResponseException('emailとpasswordの組み合わせが不正です。');
-        $user = User::where('email', $email)->first();
+        $fnThrow = fn () => $this->utilService->throwHttpResponseException('nameとpasswordの組み合わせが不正です。');
+        $user = User::where('name', $name)->first();
 
         if (!$user) {
-            /* emailが存在しなかった */
+            /* nameが存在しなかった */
             $fnThrow();
         }
         if (!Hash::check($password, $user->password)) {
-            /* emailとpasswordが一致しなかった */
+            /* nameとpasswordが一致しなかった */
             $fnThrow();
         }
 
@@ -42,17 +42,17 @@ class UserService
         ];
     }
 
-    public function register($name, $email, $password)
+    public function register($name, $bio, $password)
     {
-        if (User::where('email', $email)->count()) {
-            /* emailが使われていた */
-            $this->utilService->throwHttpResponseException("email ${email} は既に登録されています。");
+        if (User::where('name', $name)->count()) {
+            /* nameが使われていた */
+            $this->utilService->throwHttpResponseException("name ${name} は既に登録されています。");
         }
 
         /* 作成して返却する */
         return User::create([
             'name'     => $name,
-            'email'    => $email,
+            'bio'      => $bio,
             'password' => Hash::make($password),
         ]);
     }
@@ -82,19 +82,22 @@ class UserService
         ];
     }
 
-    public function updateUser($loginUser, $name)
+    public function updateUser($loginUser, $bio)
     {
         $loginUser->update([
-            'name' => $name,
+            'bio' => $bio,
         ]);
         return User::find($loginUser->id);
     }
 
     public function select($per_page, $q = null)
     {
-        $builder = $q
-            ? User::where('name', 'LIKE', '%' . $q . '%')
-            : User::query();
+        $builder = User::query();
+        if ($q) {
+            $builder = $builder
+                ->where('name', 'LIKE', '%' . $q . '%')
+                ->orWhere('bio', 'LIKE', '%' . $q . '%');
+        }
         return $builder->orderBy('id', 'desc')->paginate($per_page);
     }
 
