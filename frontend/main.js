@@ -1,7 +1,7 @@
 'use strict';
 
 const p = console.log;
-const host = 'https://bbs.yuzunoha.net';
+const host = 'http://localhost';
 
 loginSubmit.onclick = () => {
   fetch(`${host}/login`, {
@@ -10,7 +10,7 @@ loginSubmit.onclick = () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      email: loginEmail.value,
+      name: loginName.value,
       password: loginPassword.value,
     }),
   })
@@ -30,7 +30,7 @@ registerSubmit.onclick = () => {
     },
     body: JSON.stringify({
       name: registerName.value,
-      email: registerEmail.value,
+      bio: registerBio.value,
       password: registerPassword.value,
     }),
   })
