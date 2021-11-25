@@ -76,8 +76,6 @@
   - 概要: ログインユーザを編集する。
   - method: patch
   - body:
-    - name
-      - 最大 16 文字
     - bio
       - 最大 128 文字
   - response:
